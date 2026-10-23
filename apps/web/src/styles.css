@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: var(--dc-primary);
+  --color-accent: var(--dc-accent);
+  --color-bg: var(--dc-background);
+  --color-surface: var(--dc-surface);
+  --color-fg: var(--dc-text);
+  --color-muted: var(--dc-muted);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--dc-background);
+  color: var(--dc-text);
+  font-family: Inter, 'Segoe UI', system-ui, sans-serif;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}

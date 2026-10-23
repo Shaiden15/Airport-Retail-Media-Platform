@@ -1,0 +1,29 @@
+{
+  "productName": "Dwellcast",
+  "tagline": "Airport retail media, timed to every flight",
+  "logoText": "DC",
+  "airportName": "Port Meridian International",
+  "currency": "USD",
+  "locales": {
+    "default": "en",
+    "secondary": "hi"
+  },
+  "colors": {
+    "light": {
+      "primary": "#0f766e",
+      "accent": "#f59e0b",
+      "background": "#f8fafc",
+      "surface": "#ffffff",
+      "text": "#0f172a",
+      "muted": "#64748b"
+    },
+    "dark": {
+      "primary": "#2dd4bf",
+      "accent": "#fbbf24",
+      "background": "#0b1220",
+      "surface": "#111a2e",
+      "text": "#e2e8f0",
+      "muted": "#94a3b8"
+    }
+  }
+}

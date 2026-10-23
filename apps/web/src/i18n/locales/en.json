@@ -1,0 +1,27 @@
+{
+  "shell": {
+    "header": {
+      "role": "Role",
+      "language": "Language"
+    },
+    "workspace": {
+      "comingSoon": "This workspace is being built."
+    }
+  },
+  "roles": {
+    "name": {
+      "admin": "Platform Admin",
+      "retailer": "Retailer",
+      "media": "Media Manager",
+      "airline": "Airline Representative",
+      "passenger": "Passenger Screen"
+    },
+    "intro": {
+      "admin": "Network health, revenue, screen uptime, incidents and master data.",
+      "retailer": "Campaigns, live impressions and conversions, passenger flow near your store.",
+      "media": "Inventory, pricing and yield, creative approvals and advertiser reporting.",
+      "airline": "Gate messaging for your flights, upsell offers and delay goodwill.",
+      "passenger": "What a traveller sees on a chosen airport screen, and why."
+    }
+  }
+}
