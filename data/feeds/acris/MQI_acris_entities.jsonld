@@ -1,0 +1,1414 @@
+[
+  {
+    "id": "urn:ngsi-ld:TerminalFacility:MQI:T1",
+    "type": "TerminalFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "T1"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "Terminal 1 (Domestic)"
+    },
+    "AirportFacility": {
+      "type": "Property",
+      "value": {
+        "IataCode": "MQI",
+        "IcaoCode": "QMQI",
+        "Name": "Meridian International"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:TerminalFacility:MQI:T2",
+    "type": "TerminalFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "T2"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "Terminal 2 (International)"
+    },
+    "AirportFacility": {
+      "type": "Property",
+      "value": {
+        "IataCode": "MQI",
+        "IcaoCode": "QMQI",
+        "Name": "Meridian International"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ConcourseFacility:MQI:T1-A",
+    "type": "ConcourseFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "A"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "Concourse A"
+    },
+    "TerminalFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "T1",
+        "Name": "Terminal 1 (Domestic)",
+        "AirportFacility": {
+          "IataCode": "MQI",
+          "IcaoCode": "QMQI",
+          "Name": "Meridian International"
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ConcourseFacility:MQI:T1-B",
+    "type": "ConcourseFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "B"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "Concourse B"
+    },
+    "TerminalFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "T1",
+        "Name": "Terminal 1 (Domestic)",
+        "AirportFacility": {
+          "IataCode": "MQI",
+          "IcaoCode": "QMQI",
+          "Name": "Meridian International"
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ConcourseFacility:MQI:T1-C",
+    "type": "ConcourseFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "C"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "Concourse C"
+    },
+    "TerminalFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "T1",
+        "Name": "Terminal 1 (Domestic)",
+        "AirportFacility": {
+          "IataCode": "MQI",
+          "IcaoCode": "QMQI",
+          "Name": "Meridian International"
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ConcourseFacility:MQI:T2-N",
+    "type": "ConcourseFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "N"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "North Pier"
+    },
+    "TerminalFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "T2",
+        "Name": "Terminal 2 (International)",
+        "AirportFacility": {
+          "IataCode": "MQI",
+          "IcaoCode": "QMQI",
+          "Name": "Meridian International"
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ConcourseFacility:MQI:T2-M",
+    "type": "ConcourseFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "M"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "Central Pier"
+    },
+    "TerminalFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "T2",
+        "Name": "Terminal 2 (International)",
+        "AirportFacility": {
+          "IataCode": "MQI",
+          "IcaoCode": "QMQI",
+          "Name": "Meridian International"
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ConcourseFacility:MQI:T2-S",
+    "type": "ConcourseFacility",
+    "Identifier": {
+      "type": "Property",
+      "value": "S"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "South Pier"
+    },
+    "TerminalFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "T2",
+        "Name": "Terminal 2 (International)",
+        "AirportFacility": {
+          "IataCode": "MQI",
+          "IcaoCode": "QMQI",
+          "Name": "Meridian International"
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-A-A1",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Concourse A Gates A1-A5"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 283,
+          "Longitude": 306,
+          "Name": "T1 Concourse A Gates A1-A5",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-A-A6",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Concourse A Gates A6-A9"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 198,
+          "Longitude": 496,
+          "Name": "T1 Concourse A Gates A6-A9",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-B-B1",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Concourse B Gates B1-B6"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 520,
+          "Longitude": 306,
+          "Name": "T1 Concourse B Gates B1-B6",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-B-B7",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Concourse B Gates B7-B11"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 520,
+          "Longitude": 501,
+          "Name": "T1 Concourse B Gates B7-B11",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-C-C1",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Concourse C Gates C1-C5"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 715,
+          "Longitude": 295,
+          "Name": "T1 Concourse C Gates C1-C5",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-C-C6",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Concourse C Gates C6-C10"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 745,
+          "Longitude": 485,
+          "Name": "T1 Concourse C Gates C6-C10",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-N-41",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 North Gates 41-46"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 264,
+          "Longitude": 1013,
+          "Name": "T2 North Gates 41-46",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-N-47",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 North Gates 47-52"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 193,
+          "Longitude": 1238,
+          "Name": "T2 North Gates 47-52",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-N-53",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 North Gates 53-56"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 134,
+          "Longitude": 1425,
+          "Name": "T2 North Gates 53-56",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-M-57",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 Central Gates 57-62"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 1014,
+          "Name": "T2 Central Gates 57-62",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-M-63",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 Central Gates 63-68"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 1243,
+          "Name": "T2 Central Gates 63-68",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-M-69",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 Central Gates 69-72"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 1434,
+          "Name": "T2 Central Gates 69-72",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-S-73",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 South Gates 73-78"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 636,
+          "Longitude": 1013,
+          "Name": "T2 South Gates 73-78",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-S-79",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 South Gates 79-84"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 707,
+          "Longitude": 1238,
+          "Name": "T2 South Gates 79-84",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-S-85",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 South Gates 85-88"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 766,
+          "Longitude": 1425,
+          "Name": "T2 South Gates 85-88",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-LAND",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Check-in Hall"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 110,
+          "Name": "T1 Check-in Hall",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-SEC",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Security"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 150,
+          "Name": "T1 Security",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T1-PLAZA",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T1 Market Plaza"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 1 (Domestic)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 220,
+          "Name": "T1 Market Plaza",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-LAND",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 Check-in Hall"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 720,
+          "Name": "T2 Check-in Hall",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-SEC",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 Security and Passport Control"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 770,
+          "Name": "T2 Security and Passport Control",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-DUTYFREE",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 Duty Free Walkthrough"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 450,
+          "Longitude": 830,
+          "Name": "T2 Duty Free Walkthrough",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:ZoneAreaLocation:MQI:Z-T2-PLAZA",
+    "type": "ZoneAreaLocation",
+    "Name": {
+      "type": "Property",
+      "value": "T2 Grand Plaza"
+    },
+    "TerminalAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "Terminal 2 (International)",
+        "AirportLocation": {
+          "Latitude": 380,
+          "Longitude": 880,
+          "Name": "T2 Grand Plaza",
+          "Srid": 0
+        }
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:CheckpointFacility:MQI:CP-T1-SEC",
+    "type": "CheckpointFacility",
+    "Description": {
+      "type": "Property",
+      "value": "security"
+    },
+    "Identifier": {
+      "type": "Property",
+      "value": "CP-T1-SEC"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T1 Central Security"
+    },
+    "CheckpointAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Latitude": 450,
+        "Longitude": 150,
+        "Name": "T1 Central Security",
+        "Srid": 0,
+        "ZoneAreaLocation": {
+          "Name": "T1 Security",
+          "TerminalAreaLocation": {
+            "Name": "Terminal 1 (Domestic)",
+            "AirportLocation": {
+              "Latitude": 450,
+              "Longitude": 150,
+              "Name": "T1 Central Security",
+              "Srid": 0
+            }
+          }
+        }
+      }
+    },
+    "CheckpointFacilityOperatorParty": {
+      "type": "Property",
+      "value": {
+        "Name": "Meridian Airport Security"
+      }
+    },
+    "CheckpointFacilityType": {
+      "type": "Property",
+      "value": {
+        "Code": "SECURITY",
+        "Description": "security"
+      }
+    },
+    "ConcourseFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "",
+        "Name": "",
+        "TerminalFacility": {
+          "Identifier": "T1",
+          "Name": "Terminal 1 (Domestic)",
+          "AirportFacility": {
+            "IataCode": "MQI",
+            "IcaoCode": "QMQI",
+            "Name": "Meridian International"
+          }
+        }
+      }
+    },
+    "OperationTimePeriod": {
+      "type": "Property",
+      "value": {
+        "ClosingTime": "23:59:00Z",
+        "OpeningTime": "00:00:00Z"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:CheckpointFacility:MQI:CP-T2-SEC",
+    "type": "CheckpointFacility",
+    "Description": {
+      "type": "Property",
+      "value": "security"
+    },
+    "Identifier": {
+      "type": "Property",
+      "value": "CP-T2-SEC"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T2 Central Security"
+    },
+    "CheckpointAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Latitude": 450,
+        "Longitude": 770,
+        "Name": "T2 Central Security",
+        "Srid": 0,
+        "ZoneAreaLocation": {
+          "Name": "T2 Security and Passport Control",
+          "TerminalAreaLocation": {
+            "Name": "Terminal 2 (International)",
+            "AirportLocation": {
+              "Latitude": 450,
+              "Longitude": 770,
+              "Name": "T2 Central Security",
+              "Srid": 0
+            }
+          }
+        }
+      }
+    },
+    "CheckpointFacilityOperatorParty": {
+      "type": "Property",
+      "value": {
+        "Name": "Meridian Airport Security"
+      }
+    },
+    "CheckpointFacilityType": {
+      "type": "Property",
+      "value": {
+        "Code": "SECURITY",
+        "Description": "security"
+      }
+    },
+    "ConcourseFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "",
+        "Name": "",
+        "TerminalFacility": {
+          "Identifier": "T2",
+          "Name": "Terminal 2 (International)",
+          "AirportFacility": {
+            "IataCode": "MQI",
+            "IcaoCode": "QMQI",
+            "Name": "Meridian International"
+          }
+        }
+      }
+    },
+    "OperationTimePeriod": {
+      "type": "Property",
+      "value": {
+        "ClosingTime": "23:59:00Z",
+        "OpeningTime": "00:00:00Z"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:CheckpointFacility:MQI:CP-T2-PASS",
+    "type": "CheckpointFacility",
+    "Description": {
+      "type": "Property",
+      "value": "passport"
+    },
+    "Identifier": {
+      "type": "Property",
+      "value": "CP-T2-PASS"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T2 Outbound Passport Control"
+    },
+    "CheckpointAreaLocation": {
+      "type": "Property",
+      "value": {
+        "Latitude": 450,
+        "Longitude": 770,
+        "Name": "T2 Outbound Passport Control",
+        "Srid": 0,
+        "ZoneAreaLocation": {
+          "Name": "T2 Security and Passport Control",
+          "TerminalAreaLocation": {
+            "Name": "Terminal 2 (International)",
+            "AirportLocation": {
+              "Latitude": 450,
+              "Longitude": 770,
+              "Name": "T2 Outbound Passport Control",
+              "Srid": 0
+            }
+          }
+        }
+      }
+    },
+    "CheckpointFacilityOperatorParty": {
+      "type": "Property",
+      "value": {
+        "Name": "Meridian Airport Security"
+      }
+    },
+    "CheckpointFacilityType": {
+      "type": "Property",
+      "value": {
+        "Code": "PASSPORT",
+        "Description": "passport"
+      }
+    },
+    "ConcourseFacility": {
+      "type": "Property",
+      "value": {
+        "Identifier": "",
+        "Name": "",
+        "TerminalFacility": {
+          "Identifier": "T2",
+          "Name": "Terminal 2 (International)",
+          "AirportFacility": {
+            "IataCode": "MQI",
+            "IcaoCode": "QMQI",
+            "Name": "Meridian International"
+          }
+        }
+      }
+    },
+    "OperationTimePeriod": {
+      "type": "Property",
+      "value": {
+        "ClosingTime": "23:59:00Z",
+        "OpeningTime": "00:00:00Z"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:PassengerQueue:MQI:Q-T1-SEC-STD",
+    "type": "PassengerQueue",
+    "Identifier": {
+      "type": "Property",
+      "value": "Q-T1-SEC-STD"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T1 Security Standard"
+    },
+    "CheckpointFacility": {
+      "type": "Property",
+      "value": {
+        "Description": "security",
+        "Identifier": "CP-T1-SEC",
+        "Name": "T1 Central Security",
+        "CheckpointAreaLocation": {
+          "Latitude": 450,
+          "Longitude": 150,
+          "Name": "T1 Central Security",
+          "Srid": 0,
+          "ZoneAreaLocation": {
+            "Name": "T1 Security",
+            "TerminalAreaLocation": {
+              "Name": "Terminal 1 (Domestic)",
+              "AirportLocation": {
+                "Latitude": 450,
+                "Longitude": 150,
+                "Name": "T1 Central Security",
+                "Srid": 0
+              }
+            }
+          }
+        },
+        "CheckpointFacilityOperatorParty": {
+          "Name": "Meridian Airport Security"
+        },
+        "CheckpointFacilityType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        },
+        "ConcourseFacility": {
+          "Identifier": "",
+          "Name": "",
+          "TerminalFacility": {
+            "Identifier": "T1",
+            "Name": "Terminal 1 (Domestic)",
+            "AirportFacility": {
+              "IataCode": "MQI",
+              "IcaoCode": "QMQI",
+              "Name": "Meridian International"
+            }
+          }
+        },
+        "OperationTimePeriod": {
+          "ClosingTime": "23:59:00Z",
+          "OpeningTime": "00:00:00Z"
+        }
+      }
+    },
+    "PassengerProcess": {
+      "type": "Property",
+      "value": {
+        "Name": "security",
+        "PassengerProcessType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        }
+      }
+    },
+    "QueueLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "T1 Security"
+      }
+    },
+    "QueueStatus": {
+      "type": "Property",
+      "value": {
+        "Name": "Open"
+      }
+    },
+    "QueueType": {
+      "type": "Property",
+      "value": {
+        "Code": "STANDARD",
+        "Description": "T1 Security Standard"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:PassengerQueue:MQI:Q-T1-SEC-FAST",
+    "type": "PassengerQueue",
+    "Identifier": {
+      "type": "Property",
+      "value": "Q-T1-SEC-FAST"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T1 Security Fast Track"
+    },
+    "CheckpointFacility": {
+      "type": "Property",
+      "value": {
+        "Description": "security",
+        "Identifier": "CP-T1-SEC",
+        "Name": "T1 Central Security",
+        "CheckpointAreaLocation": {
+          "Latitude": 450,
+          "Longitude": 150,
+          "Name": "T1 Central Security",
+          "Srid": 0,
+          "ZoneAreaLocation": {
+            "Name": "T1 Security",
+            "TerminalAreaLocation": {
+              "Name": "Terminal 1 (Domestic)",
+              "AirportLocation": {
+                "Latitude": 450,
+                "Longitude": 150,
+                "Name": "T1 Central Security",
+                "Srid": 0
+              }
+            }
+          }
+        },
+        "CheckpointFacilityOperatorParty": {
+          "Name": "Meridian Airport Security"
+        },
+        "CheckpointFacilityType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        },
+        "ConcourseFacility": {
+          "Identifier": "",
+          "Name": "",
+          "TerminalFacility": {
+            "Identifier": "T1",
+            "Name": "Terminal 1 (Domestic)",
+            "AirportFacility": {
+              "IataCode": "MQI",
+              "IcaoCode": "QMQI",
+              "Name": "Meridian International"
+            }
+          }
+        },
+        "OperationTimePeriod": {
+          "ClosingTime": "23:59:00Z",
+          "OpeningTime": "00:00:00Z"
+        }
+      }
+    },
+    "PassengerProcess": {
+      "type": "Property",
+      "value": {
+        "Name": "security",
+        "PassengerProcessType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        }
+      }
+    },
+    "QueueLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "T1 Security"
+      }
+    },
+    "QueueStatus": {
+      "type": "Property",
+      "value": {
+        "Name": "Open"
+      }
+    },
+    "QueueType": {
+      "type": "Property",
+      "value": {
+        "Code": "PRIORITY",
+        "Description": "T1 Security Fast Track"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:PassengerQueue:MQI:Q-T2-SEC-STD",
+    "type": "PassengerQueue",
+    "Identifier": {
+      "type": "Property",
+      "value": "Q-T2-SEC-STD"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T2 Security Standard"
+    },
+    "CheckpointFacility": {
+      "type": "Property",
+      "value": {
+        "Description": "security",
+        "Identifier": "CP-T2-SEC",
+        "Name": "T2 Central Security",
+        "CheckpointAreaLocation": {
+          "Latitude": 450,
+          "Longitude": 770,
+          "Name": "T2 Central Security",
+          "Srid": 0,
+          "ZoneAreaLocation": {
+            "Name": "T2 Security and Passport Control",
+            "TerminalAreaLocation": {
+              "Name": "Terminal 2 (International)",
+              "AirportLocation": {
+                "Latitude": 450,
+                "Longitude": 770,
+                "Name": "T2 Central Security",
+                "Srid": 0
+              }
+            }
+          }
+        },
+        "CheckpointFacilityOperatorParty": {
+          "Name": "Meridian Airport Security"
+        },
+        "CheckpointFacilityType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        },
+        "ConcourseFacility": {
+          "Identifier": "",
+          "Name": "",
+          "TerminalFacility": {
+            "Identifier": "T2",
+            "Name": "Terminal 2 (International)",
+            "AirportFacility": {
+              "IataCode": "MQI",
+              "IcaoCode": "QMQI",
+              "Name": "Meridian International"
+            }
+          }
+        },
+        "OperationTimePeriod": {
+          "ClosingTime": "23:59:00Z",
+          "OpeningTime": "00:00:00Z"
+        }
+      }
+    },
+    "PassengerProcess": {
+      "type": "Property",
+      "value": {
+        "Name": "security",
+        "PassengerProcessType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        }
+      }
+    },
+    "QueueLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "T2 Security and Passport Control"
+      }
+    },
+    "QueueStatus": {
+      "type": "Property",
+      "value": {
+        "Name": "Open"
+      }
+    },
+    "QueueType": {
+      "type": "Property",
+      "value": {
+        "Code": "STANDARD",
+        "Description": "T2 Security Standard"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:PassengerQueue:MQI:Q-T2-SEC-FAST",
+    "type": "PassengerQueue",
+    "Identifier": {
+      "type": "Property",
+      "value": "Q-T2-SEC-FAST"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T2 Security Fast Track"
+    },
+    "CheckpointFacility": {
+      "type": "Property",
+      "value": {
+        "Description": "security",
+        "Identifier": "CP-T2-SEC",
+        "Name": "T2 Central Security",
+        "CheckpointAreaLocation": {
+          "Latitude": 450,
+          "Longitude": 770,
+          "Name": "T2 Central Security",
+          "Srid": 0,
+          "ZoneAreaLocation": {
+            "Name": "T2 Security and Passport Control",
+            "TerminalAreaLocation": {
+              "Name": "Terminal 2 (International)",
+              "AirportLocation": {
+                "Latitude": 450,
+                "Longitude": 770,
+                "Name": "T2 Central Security",
+                "Srid": 0
+              }
+            }
+          }
+        },
+        "CheckpointFacilityOperatorParty": {
+          "Name": "Meridian Airport Security"
+        },
+        "CheckpointFacilityType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        },
+        "ConcourseFacility": {
+          "Identifier": "",
+          "Name": "",
+          "TerminalFacility": {
+            "Identifier": "T2",
+            "Name": "Terminal 2 (International)",
+            "AirportFacility": {
+              "IataCode": "MQI",
+              "IcaoCode": "QMQI",
+              "Name": "Meridian International"
+            }
+          }
+        },
+        "OperationTimePeriod": {
+          "ClosingTime": "23:59:00Z",
+          "OpeningTime": "00:00:00Z"
+        }
+      }
+    },
+    "PassengerProcess": {
+      "type": "Property",
+      "value": {
+        "Name": "security",
+        "PassengerProcessType": {
+          "Code": "SECURITY",
+          "Description": "security"
+        }
+      }
+    },
+    "QueueLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "T2 Security and Passport Control"
+      }
+    },
+    "QueueStatus": {
+      "type": "Property",
+      "value": {
+        "Name": "Open"
+      }
+    },
+    "QueueType": {
+      "type": "Property",
+      "value": {
+        "Code": "PRIORITY",
+        "Description": "T2 Security Fast Track"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  },
+  {
+    "id": "urn:ngsi-ld:PassengerQueue:MQI:Q-T2-PASS-ALL",
+    "type": "PassengerQueue",
+    "Identifier": {
+      "type": "Property",
+      "value": "Q-T2-PASS-ALL"
+    },
+    "Name": {
+      "type": "Property",
+      "value": "T2 Passport Control"
+    },
+    "CheckpointFacility": {
+      "type": "Property",
+      "value": {
+        "Description": "passport",
+        "Identifier": "CP-T2-PASS",
+        "Name": "T2 Outbound Passport Control",
+        "CheckpointAreaLocation": {
+          "Latitude": 450,
+          "Longitude": 770,
+          "Name": "T2 Outbound Passport Control",
+          "Srid": 0,
+          "ZoneAreaLocation": {
+            "Name": "T2 Security and Passport Control",
+            "TerminalAreaLocation": {
+              "Name": "Terminal 2 (International)",
+              "AirportLocation": {
+                "Latitude": 450,
+                "Longitude": 770,
+                "Name": "T2 Outbound Passport Control",
+                "Srid": 0
+              }
+            }
+          }
+        },
+        "CheckpointFacilityOperatorParty": {
+          "Name": "Meridian Airport Security"
+        },
+        "CheckpointFacilityType": {
+          "Code": "PASSPORT",
+          "Description": "passport"
+        },
+        "ConcourseFacility": {
+          "Identifier": "",
+          "Name": "",
+          "TerminalFacility": {
+            "Identifier": "T2",
+            "Name": "Terminal 2 (International)",
+            "AirportFacility": {
+              "IataCode": "MQI",
+              "IcaoCode": "QMQI",
+              "Name": "Meridian International"
+            }
+          }
+        },
+        "OperationTimePeriod": {
+          "ClosingTime": "23:59:00Z",
+          "OpeningTime": "00:00:00Z"
+        }
+      }
+    },
+    "PassengerProcess": {
+      "type": "Property",
+      "value": {
+        "Name": "passport",
+        "PassengerProcessType": {
+          "Code": "PASSPORT",
+          "Description": "passport"
+        }
+      }
+    },
+    "QueueLocation": {
+      "type": "Property",
+      "value": {
+        "Name": "T2 Security and Passport Control"
+      }
+    },
+    "QueueStatus": {
+      "type": "Property",
+      "value": {
+        "Name": "Open"
+      }
+    },
+    "QueueType": {
+      "type": "Property",
+      "value": {
+        "Code": "STANDARD",
+        "Description": "T2 Passport Control"
+      }
+    },
+    "@context": [
+      "https://raw.githubusercontent.com/smart-data-models/dataModel.ACRIS/master/context.jsonld"
+    ]
+  }
+]

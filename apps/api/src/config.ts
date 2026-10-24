@@ -7,8 +7,7 @@ const envSchema = z.object({
   PUBLIC_BASE_URL: z.url().optional(),
   CORS_ORIGINS: z.string().default('http://localhost:5173'),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
-  FLIGHT_SOURCE: z.enum(['mock-aodb', 'vendor-api']).default('mock-aodb'),
-  FLIGHT_EVENT_SOURCE: z.enum(['mock-aidx', 'aidx-live']).default('mock-aidx'),
+  FLIGHT_SOURCE: z.enum(['mock-aidx', 'vendor-api']).default('mock-aidx'),
   ZONE_SOURCE: z.enum(['mock-acris', 'fiware-live']).default('mock-acris'),
   AI_PROVIDER: z.enum(['mock', 'anthropic', 'openai-compatible']).default('mock'),
 });

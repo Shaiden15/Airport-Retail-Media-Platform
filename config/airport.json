@@ -1,0 +1,9 @@
+{
+  "iataCode": "MQI",
+  "icaoCode": "QMQI",
+  "name": "Meridian International",
+  "utcOffsetMinutes": 0,
+  "operatingDate": "2026-11-06",
+  "festivalDates": ["2026-11-06", "2026-11-07", "2026-11-08"],
+  "seed": 20261106
+}

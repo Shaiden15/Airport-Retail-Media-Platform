@@ -18,7 +18,7 @@ How it was scored: **Claude Haiku requirements review 80% (min 75) + AI Vulnerab
 | 5 | Scores swung 80 -> 92 -> 80 between near-identical uploads (the AI reviewer is non-deterministic) | Submit early, read the report zip (`output/requirements/*.md`), fix, resubmit. Traceability doc reduces variance |
 | 6 | "Not a git repository, can't verify seed content is committed" | Repo is a git repo from the first commit; seed and generated sample data are committed |
 | 7 | Real AI provider tested late (Groq 400, deprecated model id) | Mock provider is the default; real provider tested in phase 2, model id in config |
-| 8 | Ran out of context 4+ times mid-build | This PLAN.md plus a `PROGRESS.md` checkpoint after every phase. Build in phases, commit at each |
+| 8 | Ran out of context 4+ times mid-build | This PLAN.md plus a `PROGRESS.md` checkpoint after every phase. Build in phases; at each phase end the user commits (Claude never commits or pushes) |
 | 9 | Zip command failures (OneDrive Desktop path, missing file in list) | One scripted `npm run package` that builds the zip and lists its contents |
 | 10 | Late cleanups: comments, em dashes, colours, `.env.example` | Do them from the start: one-line comments only where needed, no em dashes anywhere, `.env.example` in phase 0, theme chosen up front |
 
@@ -97,6 +97,8 @@ REQUIREMENTS_TRACEABILITY.md  SECURITY.md  PROGRESS.md  README.md  .env.example
 
 ## 4. Data model and mock generator
 
+**Update 2026-10-24:** the official samples define a fully fictional world (airport MQI, 11 airlines, fictional cities). The generator follows it exactly; see `docs/assumptions.md`.
+
 **Inputs we need from the challenge page (blocker):** download `aodb-samples/` (33-column AODB file with 320 flights, AIDX message, ACRIS schemas) into `data/aodb-samples/`. Our generated files must copy their columns, names and formats exactly.
 
 Generator (`npm run generate`, seeded PRNG so output is reproducible and committed):
@@ -118,15 +120,15 @@ Runs per screen per slot (15 simulated seconds):
 1. **Profile**: roll flight profiles up to the screen's catchment for the next slot window, weighted by gate proximity and time to boarding. Aggregated shares only.
 2. **Filter** (hard rules): schedule, placement, approval status, brand safety, dom/intl, destination, min crowd, dwell, budget exhausted, stock available. Each rejection records the rule that failed.
 3. **Score**: `audienceMatch` (cosine/weighted overlap of segment weights vs profile shares) x trigger boost (delay, gate change, boarding, festival) + learned conversion estimate + small exploration %.
-4. **AI agent (optional, pluggable)**: an LLM re-ranks the top-N candidates and must cite evidence IDs. The mock agent is deterministic.
+4. **AI agent (optional, off by default)**: the forum confirmed a deterministic, explainable algorithm is enough for matching. An optional pluggable agent may re-rank the top-N and must cite evidence IDs. The real LLM effort goes into the creative assistant.
 5. **Deterministic validator**: every cited evidence ID exists in the evidence store, is from a trusted feed, and is fresh enough; every hard rule passes; the score recomputes from logged inputs within tolerance. **Any failure rejects the AI choice and falls back to the rule-based winner.** The log shows "AI proposal rejected: cited evidence ev_123 not found".
 6. **Business rules**: airline priority in its own boarding window, competitor separation (category adjacency), frequency cap per screen, budget pacing.
 7. **Choose and log**: DecisionLog row with profile snapshot, candidates, scores, filtered list with reasons, winning rule, evidence trail, model version.
 8. **Learn**: scans and redemptions per segment update each campaign's conversion estimate (Beta-Bernoulli per segment), which feeds the next score.
 
-**Worked example golden test**: a scripted scenario (Gate 42, 14:10, XY501 to DXB 240 pax delayed 45 min + ZQ88 beach route 180 pax + one domestic flight so international comes to 57%). The scoring constants are tuned so the output is exactly: perfume 71% x 1.5 -> **0.86 Plays**, toys 49% -> **0.52 Next**, lounge 18% -> **0.21 filtered to other gates**. A Vitest asserts the table, and a "Load worked example" button in the sim bar reproduces it live.
+**Worked example golden test**: a scripted scenario (Gate 42, 14:10, XY501 to DXB 240 pax delayed 45 min + ZQ88 beach route 180 pax + one domestic flight so international comes to 57%). Forum (2026-10-24): the spec's scores are illustrative and **must not be hardcoded**. We use one documented deterministic formula (`docs/decision-pipeline.md`), and the test asserts behaviour, not exact numbers: perfume ranks first and gets the 1.5 delay boost, toys second, the lounge pass is filtered by placement, and the decision log holds profile, candidates, scores and reason. A "Load worked example" button in the sim bar reproduces it live with real computed scores.
 
-**Demo extra**: a "Simulate AI hallucination" inject button. The AI cites a flight that doesn't exist, the validator rejects it, and the screen falls back. Shows the safety guarantee in 10 seconds.
+**Demo extra (P5, nice to have)**: a "Simulate AI hallucination" inject button. The AI cites a flight that doesn't exist, the validator rejects it, and the screen falls back. Shows the safety guarantee in 10 seconds.
 
 Performance: presence is computed once per zone per tick and cached by window, and decisions for 180 screens are pure functions over it (~1 ms). DecisionLog is batch-inserted once per second in one transaction. SSE pushes deltas, throttled to 4 Hz per topic. At 60x that is 720 decisions/s, well within budget.
 
@@ -185,7 +187,7 @@ Shared shell (all roles): role switcher, company switcher (retailer: duty free, 
 
 ---
 
-## 7. Build phases (each ends with tests green + commit + PROGRESS.md update)
+## 7. Build phases (each ends with tests green + PROGRESS.md update + handover; the user commits and pushes)
 
 | Phase | Scope | Exit check |
 |---|---|---|
@@ -242,11 +244,15 @@ Patterns that cost us last time, and what to use instead:
 
 ---
 
-## 11. Hosting the playground (near-zero cost)
+## 11. Hosting the playground (THE demo)
+
+Forum (2026-10-23): the playground URL is mandatory. Leadership will review and demo **only** the deployed site and will not run Docker. Docker is still a deliverable. So the playground must be preconfigured, reliable and always on for the whole review period.
 
 Needs: always on during review, SSE/long connections, persistent SQLite, public HTTPS URL for the QR.
-- **Recommended: Render free web service from the single Docker image + an UptimeRobot ping every 5 min** so reviewers never hit a cold start. SQLite reseeds on boot (demo data is generated anyway), plus a "Reset demo" admin button.
-- Fallback: Hugging Face Spaces (Docker, free, supports SSE), or a ~$5 VPS / Railway if free tiers misbehave.
+- **Budget: zero.** No paid services, no card-on-file trials (decided 2026-10-24).
+- **Primary: Hugging Face Spaces (Docker SDK, free CPU tier).** 2 vCPU / 16 GB RAM, public HTTPS URL, supports SSE, no card needed. It sleeps after ~48 h without visits, so a free UptimeRobot monitor pings it every 5 min. Storage is ephemeral: the app regenerates and reseeds on boot (deterministic seed), so a restart always lands on the demo-ready state.
+- **Backup mirror: Render free web service from the same image**, also kept awake by UptimeRobot (750 free hours/month covers one service 24/7; 512 MB RAM). A second URL in the README so a reviewer always has a working link.
+- Design for small machines anyway: DecisionLog kept as a bounded ring buffer in memory plus batched SQLite writes, SSE throttled, no heavy native services.
 - Deploy in P3 and auto-deploy on push from then on.
 
 ---
@@ -271,7 +277,23 @@ Guided "Demo mode" button steps through:
 ## 13. Open questions for you
 
 1. **Deadline**: when does the challenge close? This sets how much of P6 we can do.
-2. **Sample files**: please download `aodb-samples/` from the challenge page into `data/aodb-samples/`. Phase 1 depends on its exact 33 columns.
+2. **Sample files**: download `Playground.zip` from the forum post and extract it into `data/aodb-samples/`. It holds the AODB dataset, the AIDX message and a README (no ACRIS folder: we use the public FIWARE dataModel.ACRIS, as the forum confirmed).
 3. **Second language**: recommend **Hindi** (the "festive sweets, families flying domestic" brief suggests India; LTR keeps layout simple). Arabic would be a strong Gulf signal but RTL adds work.
-4. **Hosting account**: OK with Render (free) + UptimeRobot, or do you already have a VPS?
+4. **Hosting**: free only. Hugging Face Spaces (primary) + Render free (backup), both kept awake by UptimeRobot. You will need free accounts on Hugging Face, Render and UptimeRobot by Phase 3.
 5. **Product name**: Dwellcast (chosen 2026-10-23; no airport-media conflicts found).
+
+---
+
+## 14. Forum clarifications (2026-10-23/24) and how we apply them
+
+| Topic | Answer | Our decision |
+|---|---|---|
+| Worked example scores | Illustrative; deterministic documented formula; never hardcode | Test asserts ranking, filters, boosts and logging, not exact numbers |
+| Many phones, one QR | Each phone may get its own code and redemption; caps optional | Per-scan codes; configurable per-offer cap and duplicate-claim protection in the campaign builder |
+| Code stored on phone | localStorage allowed; no fingerprinting, identity tracking or profiling | Claim page keeps its issued code in localStorage only; server stores nothing about the device |
+| LLM per decision | Not required; deterministic explainable algorithm is fine | Deterministic scorer + evidence validator; LLM used for the creative assistant |
+| ACRIS samples | Use public FIWARE dataModel.ACRIS; build representative NGSI-LD mocks | Mock ACRIS entities follow the FIWARE schemas and go through the ACRIS adapter |
+| Inventory | Booked = capacity allocated to approved campaigns; available = unallocated; premium = high predicted presence | Price unit: **per screen-hour** (240 plays of 15 s), also shown per 15-second play |
+| Sub-pages | Tabs, drawers, modals and panels do not count as sub-pages | Max 1 dashboard + 3 sub-pages per role; detail goes in tabs and drawers |
+| Money | Admin revenue = platform ad revenue; retailer attributed = simulated sales linked to redemptions; ROI = (attributed - spend) / spend | All definitions written in `docs/assumptions.md` and used everywhere |
+| Playground | Mandatory; leadership uses only the deployed site | Hosting is a P3 deliverable, not P7; free only (HF Spaces + Render backup); see section 11 |

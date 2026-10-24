@@ -10,8 +10,8 @@ Status: `Planned` | `In progress` | `Done`. Paths are relative to the repository
 |---|---|---|---|---|---|---|
 | ARC-1 | Must | Separate frontend and backend | In progress | `apps/web`, `apps/api`, `packages/shared` | `apps/api/src/app.test.ts` | `npm run dev`, web on :5173, api on :4000 |
 | ARC-2 | Must | REST API plus SSE live updates | Planned | | | |
-| ARC-3 | Must | Adapter layer isolated from business logic | Planned | | | |
-| ARC-4 | Must | Embedded database with migrations and seed script | Planned | | | |
+| ARC-3 | Must | Adapter layer isolated from business logic | Done | `apps/api/src/adapters/` (`types.ts` contracts, `registry.ts` the only switch), canonical model `packages/shared/src/canonical/` | `apps/api/src/adapters/sources.test.ts` | `docs/adapter-guide.md` |
+| ARC-4 | Must | Embedded database with migrations and seed script | Done | `apps/api/src/db/database.ts` (node:sqlite, migration runner), `apps/api/src/db/migrations/*.sql`, `apps/api/src/db/seed.ts`, `apps/api/src/cli/seed.ts` | `apps/api/src/db/database.test.ts` | `npm run seed --workspace apps/api` |
 | ARC-5 | Must | One-command start (`docker compose up`) | Planned | | | |
 | ARC-6 | Must | Deployed playground URL | Planned | | | |
 | ARC-7 | Must | Widely used open-source stack, justified in README | In progress | `package.json`, `PLAN.md` section 2 | | README "Why this stack" |
@@ -22,15 +22,15 @@ Status: `Planned` | `In progress` | `Done`. Paths are relative to the repository
 
 | ID | Priority | Requirement | Status | Implementation | Tests | How to verify |
 |---|---|---|---|---|---|---|
-| DAT-1 | Must | AODB flight movements mock, 33 columns as the sample file -> Flight, GateAssignment, AircraftType | Planned | | | |
-| DAT-2 | Must | IATA AIDX XML message stream (IATA_AIDX_FlightLegNotifRQ) -> FlightEvent | Planned | | | |
-| DAT-3 | Must | ACRIS NGSI-LD JSON -> Terminal, Zone, Checkpoint, QueueMeasurement | Planned | | | |
-| DAT-4 | Must | Platform tables: Screen, Advertiser, Outlet, Campaign, Creative, PromoCode, Impression, Redemption | Planned | | | |
-| DAT-5 | Must | Adapter contract `FlightSource.stream(): AsyncIterable<FlightEvent>` with mock and stub Live implementations | Planned | | | |
-| DAT-6 | Must | Source switch by one config value (`FLIGHT_SOURCE=mock-aidx \| vendor-api`) | In progress | `apps/api/src/config.ts` | `apps/api/src/app.test.ts` | `GET /api/health` shows adapters in use |
+| DAT-1 | Must | AODB flight movements mock, 33 columns as the sample file -> Flight, GateAssignment, AircraftType | Done | `apps/api/src/formats/aodbCsv.ts` (`AODB_COLUMNS`), `apps/api/src/adapters/aodb/aodbAdapter.ts`, `data/feeds/aodb/` | `apps/api/src/adapters/samples.test.ts` (official 320-row sample), `generator.test.ts` | `data/feeds/aodb/MQI_aodb_flights_2026-11-06_SYNTHETIC.csv` |
+| DAT-2 | Must | IATA AIDX XML message stream (IATA_AIDX_FlightLegNotifRQ) -> FlightEvent | Done | `apps/api/src/formats/aidxXml.ts`, `apps/api/src/adapters/aidx/aidxAdapter.ts`, `apps/api/src/generator/aidxPlan.ts`, `data/feeds/aidx/` | `samples.test.ts` (official XH960 message, XXE), `sources.test.ts` | `data/feeds/aidx/examples/XH501_*.xml` |
+| DAT-3 | Must | ACRIS NGSI-LD JSON -> Terminal, Zone, Checkpoint, QueueMeasurement | Done | `apps/api/src/formats/acrisNgsi.ts`, `apps/api/src/adapters/acris/acrisAdapter.ts`, `data/feeds/acris/`, reference `data/reference/acris/` | `samples.test.ts` (FIWARE examples), `sources.test.ts` | `data/feeds/acris/MQI_acris_entities.jsonld` |
+| DAT-4 | Must | Platform tables: Screen, Advertiser, Outlet, Campaign, Creative, PromoCode, Impression, Redemption | Done | `apps/api/src/db/migrations/001_master_data.sql`, `002_campaigns.sql`, `003_activity.sql`; schemas `packages/shared/src/canonical/platform.ts` | `apps/api/src/db/database.test.ts` | `data/runtime/dwellcast.db` after seeding |
+| DAT-5 | Must | Adapter contract `FlightSource.stream(): AsyncIterable<FlightEvent>` with mock and stub Live implementations | Done | `apps/api/src/adapters/types.ts` (`FlightSource`, `ZoneSource`), `flight/MockAidxFlightSource.ts`, `flight/VendorApiFlightSource.ts`, `acris/MockAcrisZoneSource.ts`, `acris/FiwareLiveZoneSource.ts` | `sources.test.ts` (end to end + live stubs) | `docs/adapter-guide.md` |
+| DAT-6 | Must | Source switch by one config value (`FLIGHT_SOURCE=mock-aidx \| vendor-api`) | Done | `apps/api/src/config.ts`, `apps/api/src/adapters/registry.ts`, `.env.example` | `sources.test.ts`, `app.test.ts` | `GET /api/health` shows adapters in use |
 | DAT-7 | Must | ZonePresence per zone per 5-minute window (pax, nationalities, destinations, dom/intl, dwell) | Planned | | | |
-| DAT-8 | Must | Generator: ~900 flights, ~180 screens, 40 outlets, 10 airlines, 25 campaigns, 30 days history, fictional names | Planned | | | |
-| DAT-9 | Must | Plausible per-flight crowd profiles (trip purpose, party, age, gender, cabin, nationality, time context, crowd size) | Planned | | | |
+| DAT-8 | Must | Generator: ~900 flights, ~180 screens, 40 outlets, 10 airlines, 25 campaigns, 30 days history, fictional names | Done | `apps/api/src/generator/` (`schedule.ts`, `platform.ts`, `reference.ts`, `layout.ts`), `apps/api/src/cli/generate.ts`; 11 airlines from the official sample, see `docs/assumptions.md` | `generator.test.ts`, `npm run sweep` (brand blocklist) | `npm run generate --workspace apps/api` |
+| DAT-9 | Must | Plausible per-flight crowd profiles (trip purpose, party, age, gender, cabin, nationality, time context, crowd size) | Done | `apps/api/src/profiles/crowdProfile.ts`, `packages/shared/src/canonical/profile.ts` | `apps/api/src/profiles/crowdProfile.test.ts` (Monday 07:00 business, Friday evening families) | Profiles shown in Phase 2 dashboards |
 
 ## Audience matching and decision pipeline
 
@@ -45,7 +45,7 @@ Status: `Planned` | `In progress` | `Done`. Paths are relative to the repository
 | DEC-7 | Must | Evidence-first: inputs carry source, timestamp, freshness; AI choice executed only after deterministic checks; fallback to rule-based default | Planned | | | |
 | DEC-8 | Must | Worked example (Gate 42, 14:10) reproducible in the demo | Planned | | | |
 | DEC-9 | Must | Campaign targeting: segment weights, hard filters, placement, budget and limits, triggers | Planned | | | |
-| DEC-10 | Must | Aggregated shares only, no per-passenger data | Planned | | | |
+| DEC-10 | Must | Aggregated shares only, no per-passenger data | In progress | `packages/shared/src/canonical/profile.ts` (shares only), `docs/assumptions.md` | `crowdProfile.test.ts` | No passenger-level table exists in any migration |
 
 ## Platform Admin
 

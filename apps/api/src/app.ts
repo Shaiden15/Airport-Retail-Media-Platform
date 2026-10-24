@@ -24,7 +24,6 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     status: 'ok',
     adapters: {
       flight: config.FLIGHT_SOURCE,
-      flightEvents: config.FLIGHT_EVENT_SOURCE,
       zones: config.ZONE_SOURCE,
       ai: config.AI_PROVIDER,
     },

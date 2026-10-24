@@ -22,6 +22,7 @@ export default tseslint.config(
       'no-console': 'error',
       'no-implied-eval': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': 'error',
     },
   },

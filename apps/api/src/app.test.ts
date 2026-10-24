@@ -19,7 +19,7 @@ describe('api app', () => {
     expect(res.statusCode).toBe(200);
     expect(res.json()).toMatchObject({
       status: 'ok',
-      adapters: { flight: 'mock-aodb', flightEvents: 'mock-aidx', zones: 'mock-acris', ai: 'mock' },
+      adapters: { flight: 'mock-aidx', zones: 'mock-acris', ai: 'mock' },
     });
   });
 

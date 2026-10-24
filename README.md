@@ -16,6 +16,15 @@ npm run dev
 - Web: http://localhost:5173
 - API: http://localhost:4000/api/health
 
+## Mock data
+
+```bash
+npm run generate --workspace apps/api
+npm run seed --workspace apps/api
+```
+
+`generate` writes one airport day in real source formats to `data/feeds/` (AODB CSV, AIDX XML stream, ACRIS NGSI-LD). `seed` applies the SQL migrations and loads master data, campaigns and 30 days of history into SQLite. See `data/feeds/README.md`, `docs/adapter-guide.md` and `docs/assumptions.md`.
+
 ## Quality gates
 
 | Command | What it checks |
