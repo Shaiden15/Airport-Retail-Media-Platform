@@ -18,6 +18,9 @@ export interface GeneratedDay {
   platform: PlatformData;
 }
 
+// Bump when generated data changes so existing databases re-seed on next boot
+export const GENERATOR_VERSION = '2026-10-24.3';
+
 // One deterministic airport day: same config and seed always give the same output
 export function generateDay(airport: AirportConfig): GeneratedDay {
   const date = airport.operatingDate;

@@ -1,85 +1,51 @@
-import { useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ROLES, isRole, roleTheme, type Role } from '@dwellcast/shared';
-import { applyPalette, theme } from './theme/applyTheme.ts';
-import { availableLocales } from './i18n/index.ts';
+import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { isRole } from '@dwellcast/shared';
+import { Shell } from './app/Shell.tsx';
+import { ClaimPage } from './claim/ClaimPage.tsx';
+import { LiveProvider } from './live/LiveProvider.tsx';
+import { PassengerPage } from './roles/passenger/PassengerPage.tsx';
+import { KioskScreen } from './roles/passenger/KioskScreen.tsx';
+import { RetailerPage } from './roles/retailer/RetailerPage.tsx';
+import { SplitDemo } from './roles/demo/SplitDemo.tsx';
 
-function Header({ role }: { role: Role }) {
-  const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
-
+function Placeholder({ role }: { role: 'admin' | 'media' | 'airline' }) {
+  const { t } = useTranslation();
   return (
-    <header className="flex items-center justify-between gap-4 border-b border-muted/20 bg-surface px-6 py-3">
-      <div className="flex items-center gap-3">
-        <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary font-bold text-bg">{theme.logoText}</span>
-        <div>
-          <div className="text-lg font-semibold">{theme.productName}</div>
-          <div className="text-xs text-muted">{theme.airportName}</div>
-        </div>
-      </div>
-      <div className="flex items-center gap-4 text-sm">
-        <label className="flex items-center gap-2">
-          <span className="text-muted">{t('shell.header.role')}</span>
-          <select
-            className="rounded-md border border-muted/30 bg-surface px-2 py-1"
-            value={role}
-            onChange={(event) => void navigate(`/${event.target.value}`)}
-          >
-            {ROLES.map((r) => (
-              <option key={r} value={r}>
-                {t(`roles.name.${r}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex items-center gap-2">
-          <span className="text-muted">{t('shell.header.language')}</span>
-          <select
-            className="rounded-md border border-muted/30 bg-surface px-2 py-1"
-            value={i18n.language}
-            onChange={(event) => void i18n.changeLanguage(event.target.value)}
-          >
-            {availableLocales.map((code) => (
-              <option key={code} value={code}>
-                {code.toUpperCase()}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-    </header>
+    <div className="p-8">
+      <h1 className="text-2xl font-semibold">{t(`roles.name.${role}`)}</h1>
+      <p className="mt-2 text-muted">{t(`roles.intro.${role}`)}</p>
+      <p className="mt-8 rounded-lg border border-dashed border-muted/40 p-6 text-muted">{t('shell.workspace.comingSoon')}</p>
+    </div>
   );
 }
 
-function RoleWorkspace() {
+function RoleRoute() {
   const { role = '' } = useParams();
-  const { t } = useTranslation();
-  const valid = isRole(role);
-
-  useEffect(() => {
-    if (valid) applyPalette(roleTheme(role));
-  }, [role, valid]);
-
-  if (!valid) return <Navigate to="/admin" replace />;
-
-  return (
-    <div className="flex min-h-full flex-col">
-      <Header role={role} />
-      <main className="flex-1 p-8">
-        <h1 className="text-2xl font-semibold">{t(`roles.name.${role}`)}</h1>
-        <p className="mt-2 text-muted">{t(`roles.intro.${role}`)}</p>
-        <p className="mt-8 rounded-lg border border-dashed border-muted/40 p-6 text-muted">{t('shell.workspace.comingSoon')}</p>
-      </main>
-    </div>
-  );
+  if (!isRole(role)) return <Navigate to="/admin" replace />;
+  if (role === 'passenger') return <PassengerPage />;
+  return <Shell role={role}>{role === 'retailer' ? <RetailerPage /> : <Placeholder role={role} />}</Shell>;
 }
 
 export function App() {
   return (
     <Routes>
-      <Route path="/:role" element={<RoleWorkspace />} />
-      <Route path="*" element={<Navigate to="/admin" replace />} />
+      <Route path="/c/:token" element={<ClaimPage />} />
+      <Route path="*" element={<LiveRoutes />} />
     </Routes>
+  );
+}
+
+// Everything except the phone claim page shares one live connection
+function LiveRoutes() {
+  return (
+    <LiveProvider>
+      <Routes>
+        <Route path="/screen/:screenId" element={<KioskScreen />} />
+        <Route path="/demo" element={<SplitDemo />} />
+        <Route path="/:role" element={<RoleRoute />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    </LiveProvider>
   );
 }

@@ -8,18 +8,18 @@ const TEXT_EXT = new Set(['.ts', '.tsx', '.js', '.mjs', '.json', '.md', '.css', 
 const CODE_EXT = new Set(['.ts', '.tsx', '.js', '.mjs']);
 const SELF = new Set(['scripts/sweep.mjs', 'scripts/sweep.test.mjs', 'scripts/brand-blocklist.json', 'package-lock.json']);
 
-const brands = JSON.parse(readFileSync(join(ROOT, 'scripts/brand-blocklist.json'), 'utf8')).map((b) => b.toLowerCase());
+// Brand names are proper nouns: match the exact spelling or ALL CAPS, so colour words like indigo do not trip it
+const brands = JSON.parse(readFileSync(join(ROOT, 'scripts/brand-blocklist.json'), 'utf8')).flatMap((b) => [b, b.toUpperCase()]);
 const TODO_MARKERS = ['TODO', 'FIXME', 'XXX'];
 
-const isWordChar = (ch) => ch !== '' && ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9'));
+const isWordChar = (ch) => ch !== '' && ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9'));
 
 // Plain substring search with word boundaries, avoiding dynamic regular expressions
 function findBrand(line) {
-  const lower = line.toLowerCase();
   for (const brand of brands) {
     let from = 0;
-    for (let at = lower.indexOf(brand, from); at !== -1; at = lower.indexOf(brand, from)) {
-      if (!isWordChar(lower.charAt(at - 1)) && !isWordChar(lower.charAt(at + brand.length))) return line.slice(at, at + brand.length);
+    for (let at = line.indexOf(brand, from); at !== -1; at = line.indexOf(brand, from)) {
+      if (!isWordChar(line.charAt(at - 1)) && !isWordChar(line.charAt(at + brand.length))) return line.slice(at, at + brand.length);
       from = at + 1;
     }
   }

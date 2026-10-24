@@ -108,9 +108,10 @@ interface CampaignSeed {
 const T2_GATES = ['Z-T2-N-41', 'Z-T2-N-47', 'Z-T2-N-53', 'Z-T2-M-57', 'Z-T2-M-63', 'Z-T2-M-69', 'Z-T2-S-73', 'Z-T2-S-79', 'Z-T2-S-85'];
 const T1_GATES = ['Z-T1-A-A1', 'Z-T1-A-A6', 'Z-T1-B-B1', 'Z-T1-B-B7', 'Z-T1-C-C1', 'Z-T1-C-C6'];
 const T2_CENTRAL = ['Z-T2-M-57', 'Z-T2-M-63', 'Z-T2-M-69'];
-const delay = (minDelayMinutes: number, boost: number, destinations: string[] = []): Targeting['triggers'][number] => ({ kind: 'delay', minDelayMinutes, destinations, boost });
-const festival = (boost: number): Targeting['triggers'][number] => ({ kind: 'festival', minDelayMinutes: null, destinations: [], boost });
-const boarding = (boost: number): Targeting['triggers'][number] => ({ kind: 'boarding', minDelayMinutes: null, destinations: [], boost });
+type TriggerSeed = Targeting['triggers'][number];
+const delay = (minDelayMinutes: number, boost: number, mode: TriggerSeed['mode'] = 'boost'): TriggerSeed => ({ kind: 'delay', minDelayMinutes, destinations: [], boost, mode });
+const festival = (boost: number): TriggerSeed => ({ kind: 'festival', minDelayMinutes: null, destinations: [], boost, mode: 'boost' });
+const boarding = (boost: number): TriggerSeed => ({ kind: 'boarding', minDelayMinutes: null, destinations: [], boost, mode: 'boost' });
 
 const CAMPAIGNS: CampaignSeed[] = [
   { id: 'cmp-perfume-15', advertiserId: 'adv-aurelle', outletIndex: 0, name: 'Duty-free perfume, 15% off', category: 'perfume', status: 'active',
@@ -134,7 +135,7 @@ const CAMPAIGNS: CampaignSeed[] = [
     startOffsetDays: -28, lengthDays: 60, budget: 7000, pricePerPlay: 0.6, discountPct: 50,
     creative: { template: 'countdown-deal', headline: 'Two coffees, one price', subline: 'Before 11:00 at every Bean Voyage', cta: 'Scan for 2-for-1', hi: { headline: 'दो कॉफ़ी, एक दाम', subline: 'हर बीन वॉयज पर 11:00 से पहले', cta: '2-फॉर-1 के लिए स्कैन करें' } } },
   { id: 'cmp-coffee-goodwill', advertiserId: 'adv-beanvoyage', outletIndex: 3, name: 'Delay goodwill: free pastry with coffee', category: 'coffee', status: 'active',
-    weights: { business: 0.4, holiday: 0.4, vfr: 0.4, family: 0.4 }, zones: [...T2_GATES, ...T1_GATES], triggers: [delay(30, 2)],
+    weights: { business: 0.4, holiday: 0.4, vfr: 0.4, family: 0.4 }, zones: [...T2_GATES, ...T1_GATES], triggers: [delay(60, 1.6, 'required')],
     filters: { minCrowd: 60 }, startOffsetDays: -14, lengthDays: 45, budget: 5000, pricePerPlay: 0.5, discountPct: 100, validity: 'linked-flight-boarding',
     creative: { template: 'goodwill', headline: 'Delayed? Pastry is on us', subline: 'Free pastry with any coffee while you wait', cta: 'Scan for your treat', hi: { headline: 'देरी? पेस्ट्री हमारी तरफ़ से', subline: 'इंतज़ार में किसी भी कॉफ़ी के साथ मुफ़्त पेस्ट्री', cta: 'ट्रीट के लिए स्कैन करें' } } },
   { id: 'cmp-spirits', advertiserId: 'adv-horizon', outletIndex: 0, name: 'Spirits and liqueurs, 25% off', category: 'duty-free', status: 'active',
@@ -280,6 +281,9 @@ export function generatePlatform(layout: AirportLayout, options: { date: string;
     const creativeId = `crv-${seed.id.slice(4)}`;
     const start = dayStart + seed.startOffsetDays * DAY;
     const end = start + seed.lengthDays * DAY;
+    // Seed prices are per thousand plays; 180 screens playing every 15 s is about a million plays a day
+    const pricePerPlay = Math.round((seed.pricePerPlay / 40) * 10_000) / 10_000;
+    const budget = seed.budget * 2.5;
     const approved = seed.status !== 'pending-approval';
     creatives.push({
       id: creativeId,
@@ -293,7 +297,7 @@ export function generatePlatform(layout: AirportLayout, options: { date: string;
     });
 
     const outlet = seed.outletIndex === null ? null : outlets.filter((o) => o.advertiserId === adv.id).at(seed.outletIndex);
-    const dailyCap = Math.round((seed.budget / seed.lengthDays) * 1.3);
+    const dailyCap = Math.round((budget / seed.lengthDays) * 1.3);
     campaigns.push({
       id: seed.id,
       advertiserId: adv.id,
@@ -316,7 +320,7 @@ export function generatePlatform(layout: AirportLayout, options: { date: string;
         triggers: seed.triggers ?? [],
       },
       schedule: { start: iso(start), end: iso(end), dailyHours: { from: seed.hours?.[0] ?? 0, to: seed.hours?.[1] ?? 24 } },
-      budget: { total: seed.budget, dailyCap, spent: 0, pricePerPlay: seed.pricePerPlay, frequencyCapPerScreenHour: 12 },
+      budget: { total: budget, dailyCap, spent: 0, pricePerPlay, frequencyCapPerScreenHour: 60 },
       offer: {
         headline: seed.creative.headline,
         discountPct: seed.discountPct,
@@ -336,11 +340,11 @@ export function generatePlatform(layout: AirportLayout, options: { date: string;
     let spent = 0;
     for (let day = historyFrom; day < historyTo; day += DAY) {
       if (seed.status === 'paused' && day > dayStart - 4 * DAY) break;
-      const plays = Math.round(prng.float(380, 1100) * (seed.pricePerPlay > 2 ? 0.8 : 1));
-      const impressions = Math.round(plays * prng.float(28, 95));
-      const scans = Math.round(impressions * prng.float(0.003, 0.009));
+      const plays = Math.round(prng.float(18_000, 42_000) * (seed.pricePerPlay > 2 ? 0.8 : 1));
+      const impressions = Math.round(plays * prng.float(8, 22));
+      const scans = Math.round(impressions * prng.float(0.0004, 0.0011));
       const redemptions = Math.round(scans * prng.float(0.35, 0.6));
-      const spend = Math.min(dailyCap, Math.round(plays * seed.pricePerPlay * 100) / 100);
+      const spend = Math.min(dailyCap, Math.round(plays * pricePerPlay * 100) / 100);
       spent += spend;
       const segmentRedemptions: Partial<Record<Segment, number>> = {};
       let left = redemptions;

@@ -1,0 +1,37 @@
+# One command: docker compose up, then open http://localhost:8080
+# Bound to localhost. For phone QR scanning use npm run dev (serves on the Wi-Fi address) or the deployed playground
+services:
+  api:
+    build:
+      context: .
+      target: api
+    environment:
+      PORT: 4000
+      WEB_PORT: 8080
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+      FLIGHT_SOURCE: ${FLIGHT_SOURCE:-mock-aidx}
+      ZONE_SOURCE: ${ZONE_SOURCE:-mock-acris}
+      AI_PROVIDER: ${AI_PROVIDER:-mock}
+      SIM_START: ${SIM_START:-13:50}
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      target: web
+    ports:
+      - '127.0.0.1:8080:8080'
+    depends_on:
+      api:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped

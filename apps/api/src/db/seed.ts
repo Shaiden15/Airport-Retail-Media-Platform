@@ -5,6 +5,9 @@ import { transaction, type Database } from './database.ts';
 
 // Child tables first so foreign keys never block the reset
 const RESET_STATEMENTS = [
+  'DELETE FROM decisions',
+  'DELETE FROM play_stats_hourly',
+  'DELETE FROM learner_state',
   'DELETE FROM redemptions',
   'DELETE FROM impressions',
   'DELETE FROM promo_codes',
@@ -28,6 +31,15 @@ const flag = (value: boolean): number => (value ? 1 : 0);
 export function isSeeded(db: Database): boolean {
   const row = db.prepare('SELECT COUNT(*) AS n FROM screens').get();
   return Number(row?.n ?? 0) > 0;
+}
+
+export function seedVersion(db: Database): string | null {
+  const row = db.prepare("SELECT value FROM engine_settings WHERE key = 'seed_version'").get();
+  return row ? String(JSON.parse(String(row.value))) : null;
+}
+
+export function markSeedVersion(db: Database, version: string): void {
+  db.prepare("INSERT INTO engine_settings (key, value, updated_at) VALUES ('seed_version', ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at").run(JSON.stringify(version), new Date().toISOString());
 }
 
 export function seedDatabase(db: Database, layout: AirportLayout, platform: PlatformData, options: { reset: boolean }): void {

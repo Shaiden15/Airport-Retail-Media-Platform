@@ -10,6 +10,12 @@ const envSchema = z.object({
   FLIGHT_SOURCE: z.enum(['mock-aidx', 'vendor-api']).default('mock-aidx'),
   ZONE_SOURCE: z.enum(['mock-acris', 'fiware-live']).default('mock-acris'),
   AI_PROVIDER: z.enum(['mock', 'anthropic', 'openai-compatible']).default('mock'),
+  LAN_IP: z.ipv4().optional(),
+  WEB_PORT: z.coerce.number().int().min(1).max(65535).default(5173),
+  SERVE_WEB: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
+  CLAIM_SECRET: z.string().min(16).optional(),
+  SIM_START: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).default('13:50'),
+  SIM_AUTOPLAY: z.enum(['true', 'false']).default('true').transform((v) => v === 'true'),
 });
 
 export type AppConfig = z.infer<typeof envSchema>;

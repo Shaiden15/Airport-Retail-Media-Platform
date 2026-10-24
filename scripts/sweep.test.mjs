@@ -14,6 +14,11 @@ describe('sweep', () => {
     expect(checkText('a.ts', '/* short */ const x = 1;')).toHaveLength(0);
   });
 
+  it('matches brands by exact spelling or all caps, not colour words', () => {
+    expect(checkText('a.md', 'EMIRATES lounge')).toHaveLength(1);
+    expect(checkText('a.tsx', "className='bg-indigo-500'")).toEqual([]);
+  });
+
   it('passes clean text', () => {
     expect(checkText('a.ts', '// one-line note\nconst gate = "G42";')).toEqual([]);
   });

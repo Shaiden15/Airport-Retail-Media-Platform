@@ -90,6 +90,8 @@ export const triggerSchema = z.object({
   minDelayMinutes: z.number().int().nonnegative().nullable(),
   destinations: z.array(z.string().length(3)),
   boost: z.number().min(1).max(3),
+  // boost: raises the score when it fires; required: campaign is only eligible while it fires
+  mode: z.enum(['boost', 'required']),
 });
 export type Trigger = z.infer<typeof triggerSchema>;
 

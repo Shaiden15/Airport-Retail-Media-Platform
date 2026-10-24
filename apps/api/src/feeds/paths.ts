@@ -11,6 +11,10 @@ export function runtimeDbFile(): string {
   return process.env.DATABASE_FILE ?? join(REPO_ROOT, 'data', 'runtime', 'dwellcast.db');
 }
 
+export function webDistDir(): string {
+  return process.env.WEB_DIST_DIR ?? join(REPO_ROOT, 'apps', 'web', 'dist');
+}
+
 export function samplesDir(): string {
   return join(REPO_ROOT, 'data', 'aodb-samples');
 }

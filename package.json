@@ -24,10 +24,12 @@
     "sweep": "node scripts/sweep.mjs",
     "sast": "node scripts/sast.mjs",
     "verify": "npm run typecheck && npm run lint && npm run sweep && npm run test",
+    "e2e": "playwright test",
     "package": "node scripts/package.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
     "@types/node": "26.6.5",
     "eslint": "10.13.0",
     "eslint-plugin-react-hooks": "7.1.1",

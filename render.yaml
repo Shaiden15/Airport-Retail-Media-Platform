@@ -1,0 +1,21 @@
+# Render Blueprint: free web service from the single playground image (backup playground URL)
+services:
+  - type: web
+    name: dwellcast
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: '7860'
+      - key: SERVE_WEB
+        value: 'true'
+      - key: SIM_START
+        value: '13:50'
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: CLAIM_SECRET
+        generateValue: true

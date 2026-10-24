@@ -2,10 +2,17 @@
   "shell": {
     "header": {
       "role": "Role",
-      "language": "Language"
+      "language": "Language",
+      "company": "Company",
+      "live": "Live",
+      "offline": "Reconnecting"
     },
     "workspace": {
       "comingSoon": "This workspace is being built."
+    },
+    "nav": {
+      "splitDemo": "Split-screen demo",
+      "kiosk": "Open full screen"
     }
   },
   "roles": {
@@ -22,6 +29,136 @@
       "media": "Inventory, pricing and yield, creative approvals and advertiser reporting.",
       "airline": "Gate messaging for your flights, upsell offers and delay goodwill.",
       "passenger": "What a traveller sees on a chosen airport screen, and why."
+    }
+  },
+  "sim": {
+    "control": {
+      "play": "Play",
+      "pause": "Pause",
+      "speed": "Speed",
+      "jumpTo": "Jump to",
+      "go": "Go",
+      "festival": "Festival period",
+      "inject": "Inject event",
+      "workedExample": "Worked example (Gate 42, 14:10)",
+      "reset": "Reset demo"
+    },
+    "inject": {
+      "delay": "Delay a flight",
+      "gateChange": "Change a gate",
+      "screenOffline": "Take a screen offline",
+      "screenOnline": "Bring a screen back online",
+      "hallucination": "Simulate AI hallucination",
+      "flight": "Flight",
+      "minutes": "Total delay (minutes)",
+      "gate": "New gate",
+      "screen": "Screen",
+      "apply": "Send",
+      "cancel": "Cancel",
+      "result": "{{type}} applied in {{ms}} ms, {{count}} screens re-planned"
+    }
+  },
+  "passenger": {
+    "picker": {
+      "title": "Choose a screen",
+      "byGate": "Screen nearest gate",
+      "screen": "Screen"
+    },
+    "screen": {
+      "scanToClaim": "Scan to claim",
+      "validFor": "Valid for",
+      "boardingFor": "Valid until {{flight}} boards",
+      "departures": "Departures",
+      "flight": "Flight",
+      "to": "To",
+      "time": "Time",
+      "gate": "Gate",
+      "status": "Status",
+      "whyThisAd": "Why this ad?",
+      "houseTitle": "Welcome to Meridian International",
+      "houseSubtitle": "Check the departures board for your gate. Have a pleasant journey.",
+      "offline": "Screen offline",
+      "loading": "Loading screen"
+    },
+    "why": {
+      "title": "Why this ad?",
+      "close": "Close",
+      "crowd": "Crowd in front of this screen",
+      "pax": "Passengers",
+      "international": "International",
+      "dwell": "Median dwell",
+      "minutes": "{{n}} min",
+      "purpose": "Trip purpose",
+      "party": "Party",
+      "age": "Age",
+      "flights": "Flights behind this crowd",
+      "candidates": "Top candidates",
+      "score": "Score",
+      "match": "Match",
+      "boost": "Boost",
+      "rule": "Winning rule",
+      "checks": "Deterministic checks",
+      "evidence": "Evidence trail",
+      "filtered": "Filtered",
+      "notice": "Aggregated shares only. No personal data is used."
+    }
+  },
+  "segment": {
+    "label": {
+      "business": "Business",
+      "holiday": "Holiday",
+      "vfr": "Visiting friends and family",
+      "student": "Student",
+      "religious": "Religious",
+      "solo": "Solo",
+      "couple": "Couple",
+      "family": "Family with children",
+      "group": "Group"
+    }
+  },
+  "claim": {
+    "page": {
+      "title": "Your offer",
+      "claim": "Claim my code",
+      "claiming": "Claiming",
+      "yourCode": "Your code",
+      "showAtTill": "Show this code at the till",
+      "validUntil": "Valid for",
+      "expired": "This offer has expired",
+      "share": "Share with family",
+      "familyCode": "Family code",
+      "copy": "Copy",
+      "copied": "Copied",
+      "invalid": "This offer link is not valid",
+      "flight": "For passengers on {{flight}} to {{destination}}",
+      "outlet": "Redeem at {{outlet}}",
+      "privacy": "No account and no personal data. Your code is kept only on this phone."
+    }
+  },
+  "retailer": {
+    "live": {
+      "title": "Live today",
+      "impressions": "Impressions",
+      "scans": "QR scans",
+      "redemptions": "Redemptions",
+      "conversion": "Conversion",
+      "revenue": "Revenue attributed",
+      "spend": "Spend",
+      "roi": "ROI",
+      "campaigns": "Campaigns",
+      "campaign": "Campaign",
+      "plays": "Plays",
+      "recent": "Latest redemptions",
+      "none": "No redemptions yet today",
+      "phone": "Phone scan",
+      "family": "Family code",
+      "simulated": "In store"
+    }
+  },
+  "demo": {
+    "split": {
+      "title": "Split-screen demo",
+      "right": "Right panel"
     }
   }
 }
