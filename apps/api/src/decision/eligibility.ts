@@ -44,7 +44,8 @@ export function evaluateTriggers(campaign: Campaign, ctx: EligibilityContext, ai
   const fired: FiredTrigger[] = [];
   for (const trigger of campaign.targeting.triggers) {
     const wanted = (dest: string) => !trigger.destinations.length || trigger.destinations.includes(dest);
-    const flights = ctx.crowd.flights.filter((f) => f.share >= 0.05 && wanted(f.destination) && (!airlineCode || f.label.startsWith(airlineCode)));
+    const ownAirline = (label: string) => (!airlineCode || label.startsWith(airlineCode)) && (!trigger.airlines.length || trigger.airlines.some((a) => label.startsWith(a)));
+    const flights = ctx.crowd.flights.filter((f) => f.share >= 0.05 && wanted(f.destination) && ownAirline(f.label));
     let hit: FiredTrigger | null = null;
     if (trigger.kind === 'delay') {
       const f = flights.filter((x) => x.delayMinutes >= (trigger.minDelayMinutes ?? 0)).sort((a, b) => b.pax - a.pax).at(0);
@@ -83,6 +84,16 @@ function regionShare(crowd: Crowd, regions: readonly string[], destinations: rea
   return total > 0 ? matching / total : 0;
 }
 
+// Audience rules shared by live decisions and the campaign builder preview
+export function audienceFilter(f: Campaign['targeting']['hardFilters'], crowd: Crowd): FilterReason | null {
+  if (f.internationalOnly && crowd.internationalShare < 0.5) return 'domestic-international';
+  if (f.domesticOnly && crowd.internationalShare > 0.5) return 'domestic-international';
+  if ((f.destinationRegions.length || f.destinations.length) && regionShare(crowd, f.destinationRegions, f.destinations) < 0.25) return 'destination';
+  if (f.minDwellMinutes > 0 && crowd.medianDwellMinutes < f.minDwellMinutes) return 'dwell';
+  if (f.minCrowd > 0 && crowd.pax < f.minCrowd) return 'min-crowd';
+  return null;
+}
+
 // Hard rules: the first one that fails removes the campaign and is recorded as the reason
 export function hardFilter(campaign: Campaign, fired: readonly FiredTrigger[], ctx: EligibilityContext): FilterReason | null {
   const f = campaign.targeting.hardFilters;
@@ -96,11 +107,8 @@ export function hardFilter(campaign: Campaign, fired: readonly FiredTrigger[], c
   const { from, to } = campaign.schedule.dailyHours;
   if (ctx.simMs < start || ctx.simMs >= end || hour < from || hour >= to) return 'schedule';
   if (!placementMatches(campaign, ctx.screen)) return 'placement';
-  if (f.internationalOnly && ctx.crowd.internationalShare < 0.5) return 'domestic-international';
-  if (f.domesticOnly && ctx.crowd.internationalShare > 0.5) return 'domestic-international';
-  if ((f.destinationRegions.length || f.destinations.length) && regionShare(ctx.crowd, f.destinationRegions, f.destinations) < 0.25) return 'destination';
-  if (f.minDwellMinutes > 0 && ctx.crowd.medianDwellMinutes < f.minDwellMinutes) return 'dwell';
-  if (f.minCrowd > 0 && ctx.crowd.pax < f.minCrowd) return 'min-crowd';
+  const audience = audienceFilter(f, ctx.crowd);
+  if (audience) return audience;
   const remaining = Math.min(campaign.budget.total - campaign.budget.spent, campaign.budget.dailyCap - ctx.spentToday);
   if (remaining <= 0) return 'budget';
   if (campaign.outletId && ctx.outlets.get(campaign.outletId)?.inStock === false) return 'stock';

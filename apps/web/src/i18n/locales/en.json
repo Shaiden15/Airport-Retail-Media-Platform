@@ -13,6 +13,14 @@
     "nav": {
       "splitDemo": "Split-screen demo",
       "kiosk": "Open full screen"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "new": "New",
+      "save": "Save",
+      "saved": "Saved",
+      "search": "Search"
     }
   },
   "roles": {
@@ -113,7 +121,22 @@
       "solo": "Solo",
       "couple": "Couple",
       "family": "Family with children",
-      "group": "Group"
+      "group": "Group",
+      "u12": "Under 12",
+      "12-17": "12 to 17",
+      "18-24": "18 to 24",
+      "25-34": "25 to 34",
+      "35-44": "35 to 44",
+      "45-54": "45 to 54",
+      "55+": "55 and over",
+      "economy": "Economy cabin",
+      "premium-economy": "Premium economy",
+      "business-cabin": "Business cabin",
+      "frequent-flyer": "Frequent flyers",
+      "international": "International",
+      "domestic": "Domestic",
+      "female": "Women",
+      "male": "Men"
     }
   },
   "claim": {
@@ -153,12 +176,443 @@
       "phone": "Phone scan",
       "family": "Family code",
       "simulated": "In store"
+    },
+    "nav": {
+      "dashboard": "Live",
+      "campaigns": "Campaigns",
+      "creatives": "Creatives",
+      "insights": "History and codes"
+    },
+    "flow": {
+      "title": "Passenger flow near my stores",
+      "summary": "Next 60 min: {{pax}} pax, {{intl}} international, top: {{top}}",
+      "chart": "Footfall in the zone, next 2 hours",
+      "inStock": "In stock",
+      "paused": "Offers paused: out of stock"
+    },
+    "campaigns": {
+      "title": "My campaigns",
+      "new": "New campaign",
+      "none": "No campaigns yet",
+      "campaign": "Campaign",
+      "status": "Status",
+      "pacing": "Today vs daily cap",
+      "budget": "Spent / budget",
+      "pause": "Pause",
+      "resume": "Resume",
+      "paused": "Paused",
+      "resumed": "Resumed",
+      "runAgain": "Run again",
+      "copied": "Copied for approval",
+      "submitted": "{{name}} sent for brand-safety approval"
+    },
+    "builder": {
+      "basics": "Basics",
+      "name": "Campaign name",
+      "outlet": "Outlet",
+      "anyOutlet": "Any of my outlets",
+      "creative": "Creative",
+      "headline": "Offer headline",
+      "audience": "Audience",
+      "weightsHint": "How much each segment matters, from 0 (ignore) to 1 (most important)",
+      "scope": "Travellers",
+      "scopeAny": "Domestic and international",
+      "scopeIntl": "International only",
+      "scopeDom": "Domestic only",
+      "minDwell": "Minimum dwell (min)",
+      "minCrowd": "Minimum crowd",
+      "region": {
+        "gulf": "Gulf",
+        "europe": "Europe",
+        "asia": "Asia",
+        "americas": "Americas",
+        "indian-ocean": "Indian Ocean",
+        "domestic": "Domestic cities"
+      },
+      "delayTrigger": "Trigger on flight delays",
+      "delayMinutes": "Delay over (min)",
+      "delayBoost": "Boost",
+      "delayOnly": "Play only during delays",
+      "placement": "Placement",
+      "placementHint": "Choose zones; leave all empty to run on any suitable screen",
+      "scheduleBudget": "Schedule and budget",
+      "start": "Start",
+      "days": "Days",
+      "hours": "Daily hours",
+      "fromHour": "From hour",
+      "toHour": "To hour",
+      "total": "Total budget",
+      "dailyCap": "Daily cap",
+      "frequency": "Frequency cap per screen hour",
+      "offer": "Offer and promo codes",
+      "discount": "Discount %",
+      "validity": "Code valid",
+      "validityFlight": "Until the linked flight boards",
+      "validityFixed": "For 45 minutes",
+      "cap": "Codes per offer",
+      "capHint": "0 means no limit",
+      "family": "Allow a family share code",
+      "preview": "Live audience match",
+      "previewLoading": "Calculating the audience forecast",
+      "match": "Audience match",
+      "eligible": "Eligible screen time",
+      "impressions": "Expected impressions",
+      "redemptions": "Expected redemptions",
+      "spend": "Estimated spend",
+      "price": "Price per play",
+      "reasons": "Held back by: {{reasons}}",
+      "mockScreen": "Mock screen",
+      "submit": "Submit for approval",
+      "update": "Save changes",
+      "approvalNote": "New and edited campaigns pass a brand-safety review before they play."
+    },
+    "creatives": {
+      "title": "Creative library",
+      "new": "New creative",
+      "name": "Name",
+      "template": "Template",
+      "headline": "Headline",
+      "subline": "Sub-line",
+      "cta": "Call to action",
+      "accent": "Accent colour",
+      "image": "Background image",
+      "imageHint": "PNG, JPEG or WebP, up to 700 KB",
+      "secondLanguage": "Hindi copy",
+      "sampleHeadline": "Your headline here"
+    },
+    "insights": {
+      "history": "Campaign history",
+      "spend": "Spend",
+      "revenue": "Revenue attributed",
+      "roi": "ROI",
+      "redemptions": "Redemptions",
+      "segments": "Performance by segment",
+      "segment": "Segment",
+      "index": "Conversion vs average",
+      "weight": "Weight",
+      "suggested": "Suggested",
+      "codes": "Promo codes",
+      "issued": "Issued",
+      "activeCodes": "Active",
+      "familyCodes": "Family",
+      "code": "Code",
+      "expires": "Expires",
+      "expired": "Expired",
+      "basket": "Basket"
     }
   },
   "demo": {
     "split": {
       "title": "Split-screen demo",
       "right": "Right panel"
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Network",
+      "incidents": "Incidents",
+      "master": "Master data",
+      "rules": "Rules and log"
+    },
+    "kpi": {
+      "online": "Screens online",
+      "plays": "Ad plays today",
+      "impressions": "Impressions",
+      "revenue": "Revenue today",
+      "campaigns": "Active campaigns",
+      "latency": "Avg screen latency",
+      "decision": "Decision {{ms}} ms"
+    },
+    "map": {
+      "title": "Live network map",
+      "online": "Online",
+      "degraded": "Degraded",
+      "offline": "Offline",
+      "heat": "Passenger heat",
+      "close": "Close",
+      "status": "Status",
+      "latency": "Latency",
+      "playing": "Now playing",
+      "house": "Airport information",
+      "takeOffline": "Take offline",
+      "bringOnline": "Bring online",
+      "view": "View screen"
+    },
+    "severity": {
+      "critical": "Critical",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "incidents": {
+      "title": "Incidents and bugs",
+      "open": "Open incidents",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved",
+      "active": "Active",
+      "all": "All",
+      "filter": "Filter",
+      "new": "New incident",
+      "none": "No incidents. The network is healthy.",
+      "severity": "Severity",
+      "issue": "Issue",
+      "opened": "Opened",
+      "owner": "Owner",
+      "status": "Status",
+      "change": "Change",
+      "subject": "Screen, feed or system"
+    },
+    "feeds": {
+      "title": "Data feed health",
+      "rate": "Last minute: {{aidx}} AIDX messages, {{acris}} ACRIS measurements"
+    },
+    "perf": {
+      "title": "Performance",
+      "p95": "API p95 latency",
+      "playlist": "Playlist build time",
+      "uptime": "Uptime, last 7 days"
+    },
+    "master": {
+      "title": "Master data",
+      "kind": {
+        "vendors": "Vendors",
+        "advertisers": "Retailers and F&B",
+        "outlets": "Outlets",
+        "airlines": "Airlines",
+        "terminals": "Terminals",
+        "zones": "Zones",
+        "gates": "Gates",
+        "screens": "Screens"
+      },
+      "field": {
+        "name": "Name",
+        "kind": "Type",
+        "contactEmail": "Contact email",
+        "category": "Category",
+        "brandColor": "Brand colour",
+        "advertiserId": "Retailer",
+        "zoneId": "Zone",
+        "avgBasket": "Average basket",
+        "inStock": "In stock",
+        "code": "Code",
+        "icaoCode": "ICAO code",
+        "model": "Business model",
+        "hubRegion": "Hub region",
+        "terminalId": "Terminal",
+        "airside": "Airside",
+        "centroidX": "Plan X",
+        "centroidY": "Plan Y",
+        "radius": "Radius",
+        "id": "ID",
+        "x": "Plan X",
+        "y": "Plan Y",
+        "bus": "Bus gate",
+        "sizeInches": "Size (inches)",
+        "orientation": "Orientation",
+        "resolution": "Resolution",
+        "vendorId": "Vendor",
+        "status": "Status",
+        "premium": "Premium"
+      }
+    },
+    "rules": {
+      "title": "Rule engine settings",
+      "exploration": "Exploration (% of plays)",
+      "explorationHint": "Share of plays that test the runner-up so learning keeps improving",
+      "frequency": "Frequency cap (plays per screen per hour)",
+      "learnRange": "Learned lift range (%)",
+      "attention": "Attention factor (%)",
+      "separation": "Competitor separation",
+      "airlinePriority": "Airline priority in own boarding window",
+      "freshness": "{{feed}} freshness (min)",
+      "model": "Models in use",
+      "log": "Decision log",
+      "screen": "Screen",
+      "source": "Decision source",
+      "anySource": "Any source",
+      "time": "Time",
+      "winner": "Played",
+      "why": "Why"
+    }
+  },
+  "media": {
+    "nav": {
+      "dashboard": "Advertisers",
+      "inventory": "Inventory and yield",
+      "approvals": "Approvals",
+      "audience": "Audience and overrides"
+    },
+    "kpi": {
+      "pending": "Awaiting approval",
+      "running": "Campaigns running",
+      "under": "Under-delivering",
+      "forecast": "7-day revenue forecast",
+      "occupancy": "Today {{pct}}% occupied"
+    },
+    "advertisers": {
+      "title": "Top advertisers by spend (30 days)",
+      "name": "Advertiser",
+      "spend30": "Spend 30 days",
+      "spendToday": "Spend today",
+      "running": "Running",
+      "delivery": "Delivery",
+      "behind": "{{count}} behind pace",
+      "onPace": "On pace",
+      "idle": "Nothing running"
+    },
+    "under": {
+      "title": "Under-delivering campaigns",
+      "none": "Every running campaign is on pace.",
+      "pace": "{{spent}} spent of {{expected}} expected by now ({{pct}}%)"
+    },
+    "inventory": {
+      "title": "Inventory calendar: {{zone}}",
+      "zone": "Zone",
+      "booked": "Booked",
+      "available": "Available",
+      "premiumAvailable": "Premium, available",
+      "premiumBooked": "Premium, booked",
+      "cellTitle": "{{booked}}% booked, {{pax}} pax predicted, {{price}} per screen-hour, {{play}} per play",
+      "unit": "Numbers show the booked share. Price unit: per screen-hour (240 plays of 15 seconds)."
+    },
+    "yield": {
+      "title": "Next 7 days: {{total}} forecast",
+      "revenue": "Revenue forecast",
+      "date": "Date",
+      "occupancy": "Occupancy",
+      "demand": "Demand",
+      "premium": "Highest-value slots today",
+      "slot": "Slot",
+      "pax": "Predicted pax",
+      "perHour": "Per screen-hour",
+      "perPlay": "Per play"
+    },
+    "approvals": {
+      "pending": "Pending",
+      "none": "Nothing is waiting for review.",
+      "targeting": "Targets {{weights}} · zones: {{zones}}",
+      "anywhere": "anywhere suitable",
+      "checklist": "Brand-safety checklist",
+      "check": {
+        "noCompetitorMarks": "No competitor or real third-party marks",
+        "claimsSubstantiated": "Price and discount claims are accurate",
+        "ageAppropriate": "Suitable for all ages in a public area",
+        "translationChecked": "Second-language copy checked",
+        "legibleAtDistance": "Legible from 5 metres"
+      },
+      "notes": "Review notes",
+      "approve": "Approve",
+      "reject": "Reject",
+      "recent": "Recent reviews"
+    },
+    "audience": {
+      "heatmap": "Segment heatmap by hour: {{zone}}",
+      "conflict": "Why A beat B",
+      "winner": "Playing",
+      "challenger": "Compared with",
+      "pins": "Manual pins and overrides",
+      "pinCampaign": "Campaign",
+      "pinReason": "Reason",
+      "pinMinutes": "Minutes",
+      "pinScreen": "Pin to {{screen}}",
+      "until": "Until {{time}}",
+      "unpin": "Remove pin"
+    }
+  },
+  "airline": {
+    "nav": {
+      "flights": "My flights",
+      "messaging": "Gate messaging",
+      "goodwill": "Delay goodwill",
+      "partners": "Partners and plays"
+    },
+    "kpi": {
+      "departures": "Departures today",
+      "delayed": "Delayed 15+ min",
+      "loadFactor": "Average load factor",
+      "pax": "Passengers",
+      "intl": "{{pct}} international"
+    },
+    "view": {
+      "timeline": "Today's departures timeline",
+      "flights": "My flights today",
+      "departures": "Departures",
+      "arrivals": "Arrivals",
+      "from": "From",
+      "load": "Load",
+      "profile": "Who is flying with us today"
+    },
+    "messaging": {
+      "new": "Schedule gate messaging",
+      "hint": "Plays on screens at your gates only while your own flights are boarding. Media Manager approves it first.",
+      "name": "Name",
+      "upgrade": "Upgrade offer",
+      "destination": "Destination partner",
+      "offer": "Lounge or onboard offer",
+      "gates": "Gates",
+      "gatesHint": "Comma separated; leave empty for every gate area you use today",
+      "schedule": "Schedule",
+      "created": "{{name}} sent for approval",
+      "list": "My gate messages",
+      "none": "No gate messages yet",
+      "atGates": "Gates {{gates}}",
+      "atZones": "{{count}} gate areas"
+    },
+    "goodwill": {
+      "new": "New goodwill rule",
+      "hint": "When one of your flights is delayed past the threshold, a voucher co-funded with an F&B partner takes over that flight's gate screens.",
+      "partner": "F&B partner",
+      "anyPartner": "Choose for me",
+      "threshold": "Delay threshold (min)",
+      "share": "Airline share of cost (%)",
+      "enabled": "Enabled",
+      "create": "Create rule",
+      "rules": "My goodwill rules",
+      "none": "No goodwill rules yet",
+      "ruleText": "Delays over {{minutes}} min: voucher from {{partner}}",
+      "funding": "Airline funds {{pct}}%",
+      "activity": "Vouchers on screens",
+      "activityHint": "Every time a goodwill voucher reached a screen for one of your delayed flights",
+      "noActivity": "No vouchers pushed yet. Try Inject event > Delay a flight."
+    },
+    "partners": {
+      "title": "Partner offers for my passengers",
+      "hint": "Retail and F&B offers ranked by how well they fit the passengers on your flights today",
+      "offer": "Offer",
+      "fit": "Fit"
+    },
+    "plays": {
+      "title": "What played at my gates",
+      "hint": "Screens beside your gates for flights in the next three hours, with the reason for each ad",
+      "none": "No flights at gates in the next three hours",
+      "gate": "Gate {{gate}} {{flight}}"
+    }
+  },
+  "campaign": {
+    "status": {
+      "draft": "Draft",
+      "pending-approval": "Pending approval",
+      "approved": "Approved",
+      "active": "Active",
+      "paused": "Paused",
+      "rejected": "Rejected",
+      "completed": "Completed"
+    }
+  },
+  "flight": {
+    "status": {
+      "scheduled": "Scheduled",
+      "check-in": "Check-in",
+      "boarding": "Boarding",
+      "final-call": "Final call",
+      "gate-closed": "Gate closed",
+      "departed": "Departed",
+      "delayed": "Delayed",
+      "cancelled": "Cancelled",
+      "approaching": "Approaching",
+      "landed": "Landed",
+      "on-block": "On block",
+      "baggage": "Baggage"
     }
   }
 }

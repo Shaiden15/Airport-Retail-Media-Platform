@@ -5,6 +5,10 @@ import { transaction, type Database } from './database.ts';
 
 // Child tables first so foreign keys never block the reset
 const RESET_STATEMENTS = [
+  'DELETE FROM goodwill_rules',
+  'DELETE FROM campaign_reviews',
+  'DELETE FROM assets',
+  'DELETE FROM incidents',
   'DELETE FROM decisions',
   'DELETE FROM play_stats_hourly',
   'DELETE FROM learner_state',

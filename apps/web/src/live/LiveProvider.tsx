@@ -9,6 +9,7 @@ interface Events {
   flight: (FlightSummary & { event: string; previousGate: string | null })[];
   inject: { type: string; simTime: string; latencyMs: number; affectedScreens: number };
   screen: { screenId: string; status: string; simTime: string };
+  incident: { id: string; status: string; severity: string; title: string };
 }
 
 interface LiveState {
@@ -44,7 +45,7 @@ export function LiveProvider({ children }: { children: ReactNode }) {
     source.addEventListener('kpi', (e) => setKpis(parse(e) as Kpis));
     source.addEventListener('presence', (e) => setPresence(parse(e) as ZoneSummary[]));
     source.addEventListener('feed', (e) => setFeed(parse(e)));
-    for (const topic of ['decision', 'redemption', 'flight', 'inject', 'screen'] as const) source.addEventListener(topic, emit(topic));
+    for (const topic of ['decision', 'redemption', 'flight', 'inject', 'screen', 'incident'] as const) source.addEventListener(topic, emit(topic));
     return () => source.close();
   }, []);
 

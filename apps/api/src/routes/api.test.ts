@@ -102,14 +102,16 @@ describe('live stream', () => {
     let text = '';
     const screenId = rt.screenClosestToGate('42')?.id ?? '';
     setTimeout(() => void post('/api/sim/inject', { type: 'hallucination', screenId }), 50);
-    const deadline = Date.now() + 3000;
+    const deadline = Date.now() + 8000;
     while (reader && Date.now() < deadline && !(text.includes('event: clock') && text.includes('event: inject'))) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      text += decoder.decode(value);
+      // Bound each read so a slow machine cannot hang the loop past the deadline
+      const next = await Promise.race([reader.read(), new Promise<null>((resolve) => setTimeout(() => resolve(null), deadline - Date.now()))]);
+      if (!next || next.done) break;
+      text += decoder.decode(next.value);
     }
+    await reader?.cancel().catch(() => undefined);
     controller.abort();
     expect(text).toContain('event: clock');
     expect(text).toContain('event: inject');
-  });
+  }, 15_000);
 });

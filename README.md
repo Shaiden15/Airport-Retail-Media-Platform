@@ -12,7 +12,7 @@ pinned: false
 
 Airport retail media platform: ads and promotions on airport screens, timed to the passengers actually in front of each screen using live flight (AODB, IATA AIDX) and passenger-flow (ACI ACRIS) data. Every ad decision is explainable and evidence-checked.
 
-> Work in progress: the passenger screen, phone claim flow, simulation control bar and retailer live dashboard are working; the remaining role dashboards are being built. See `PLAN.md`, `PROGRESS.md` and `REQUIREMENTS_TRACEABILITY.md`.
+> Work in progress: all five roles are working (Platform Admin, Retailer, Media Manager, Airline Rep, passenger screen) with the simulation control bar, phone claim and split-screen demo. The GenAI creative assistant and final hardening are next. See `PLAN.md`, `PROGRESS.md` and `REQUIREMENTS_TRACEABILITY.md`.
 
 ## Run it
 

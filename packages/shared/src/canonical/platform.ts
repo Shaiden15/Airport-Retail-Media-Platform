@@ -92,6 +92,8 @@ export const triggerSchema = z.object({
   boost: z.number().min(1).max(3),
   // boost: raises the score when it fires; required: campaign is only eligible while it fires
   mode: z.enum(['boost', 'required']),
+  // Restricts the trigger to these airlines' flights, for airline-funded rules such as delay goodwill
+  airlines: z.array(z.string().min(2).max(3)).default([]),
 });
 export type Trigger = z.infer<typeof triggerSchema>;
 

@@ -20,6 +20,10 @@ export const tripPurposeSharesSchema = sharesOf(TRIP_PURPOSES);
 export const partySharesSchema = sharesOf(PARTY_TYPES);
 export const ageSharesSchema = sharesOf(AGE_BANDS);
 export const cabinSharesSchema = sharesOf(CABINS);
+export const CABIN_SEGMENTS = ['economy', 'premium-economy', 'business-cabin'] as const;
+export function cabinSegment(cabin: Cabin): (typeof CABIN_SEGMENTS)[number] {
+  return cabin === 'business' ? 'business-cabin' : cabin;
+}
 
 export const rankedShareSchema = z.object({ code: z.string(), share });
 
@@ -48,7 +52,8 @@ export const SEGMENTS = [
   ...TRIP_PURPOSES,
   ...PARTY_TYPES,
   ...AGE_BANDS,
-  ...CABINS,
+  // Cabin keys get their own names so the business cabin never collides with business travel
+  ...CABIN_SEGMENTS,
   'international',
   'domestic',
   'frequent-flyer',

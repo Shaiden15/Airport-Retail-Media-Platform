@@ -7,6 +7,7 @@ import type { AppConfig } from './config.ts';
 import { webDistDir } from './feeds/paths.ts';
 import { registerClaimRoutes } from './routes/claimRoutes.ts';
 import { registerEngineRoutes } from './routes/engineRoutes.ts';
+import { registerRoleRoutes } from './routes/roleRoutes.ts';
 import { HttpError } from './routes/http.ts';
 import type { Runtime } from './runtime/Runtime.ts';
 import { loadTheme } from './theme.ts';
@@ -52,8 +53,13 @@ export async function buildApp(config: AppConfig, runtime: Runtime | null = null
   app.get('/api/theme', async () => theme);
 
   if (runtime) {
+    // Request timings feed the admin performance panel; the long-lived SSE stream is excluded
+    app.addHook('onResponse', async (request, reply) => {
+      if (!request.url.startsWith('/api/stream')) runtime.metrics.recordRequest(reply.elapsedTime);
+    });
     registerEngineRoutes(app, runtime);
     registerClaimRoutes(app, runtime, config);
+    registerRoleRoutes(app, runtime);
   }
 
   // Single-image deploys serve the built web app from the API; unknown non-API paths fall back to the SPA

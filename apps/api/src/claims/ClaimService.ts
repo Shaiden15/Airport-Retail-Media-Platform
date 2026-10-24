@@ -46,10 +46,6 @@ export class ClaimService extends EventEmitter {
   private readonly recent: RedemptionEvent[] = [];
   private readonly expected = new Map<string, { scans: number; redemptions: number; screenId: string; segment: Segment | null }>();
   private readonly prng: Prng;
-  private readonly campaigns: Map<string, Campaign>;
-  private readonly creatives: Map<string, Creative>;
-  private readonly outlets: Map<string, Outlet>;
-  private readonly advertisers: Map<string, Advertiser>;
   private sequence = 0;
 
   constructor(
@@ -58,17 +54,18 @@ export class ClaimService extends EventEmitter {
     private readonly state: AirportState,
     private readonly engine: DecisionEngine,
     private readonly secret: string,
-    data: { creatives: Creative[]; outlets: Outlet[]; advertisers: Advertiser[] },
     seed: number,
   ) {
     super();
     this.prng = new Prng(seed ^ 0x5ca1e);
-    this.campaigns = new Map(engine.campaigns.map((c) => [c.id, c]));
-    this.creatives = new Map(data.creatives.map((c) => [c.id, c]));
-    this.outlets = new Map(data.outlets.map((o) => [o.id, o]));
-    this.advertisers = new Map(data.advertisers.map((a) => [a.id, a]));
     engine.on('play', (d: Decision) => this.onPlay(d));
   }
+
+  // Lookups go through the engine so campaigns created or edited live are claimable at once
+  private readonly campaigns = { get: (id: string): Campaign | undefined => this.engine.campaignById(id) };
+  private readonly creatives = { get: (id: string): Creative | undefined => this.engine.creativeById(id) };
+  private readonly outlets = { get: (id: string): Outlet | undefined => this.engine.outletById(id) };
+  private readonly advertisers = { get: (id: string): Advertiser | undefined => this.engine.advertiserById(id) };
 
   private count(campaignId: string): Counters {
     const c = this.counters.get(campaignId) ?? { scans: 0, redemptions: 0, revenue: 0, phoneRedemptions: 0 };

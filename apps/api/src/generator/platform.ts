@@ -109,9 +109,9 @@ const T2_GATES = ['Z-T2-N-41', 'Z-T2-N-47', 'Z-T2-N-53', 'Z-T2-M-57', 'Z-T2-M-63
 const T1_GATES = ['Z-T1-A-A1', 'Z-T1-A-A6', 'Z-T1-B-B1', 'Z-T1-B-B7', 'Z-T1-C-C1', 'Z-T1-C-C6'];
 const T2_CENTRAL = ['Z-T2-M-57', 'Z-T2-M-63', 'Z-T2-M-69'];
 type TriggerSeed = Targeting['triggers'][number];
-const delay = (minDelayMinutes: number, boost: number, mode: TriggerSeed['mode'] = 'boost'): TriggerSeed => ({ kind: 'delay', minDelayMinutes, destinations: [], boost, mode });
-const festival = (boost: number): TriggerSeed => ({ kind: 'festival', minDelayMinutes: null, destinations: [], boost, mode: 'boost' });
-const boarding = (boost: number): TriggerSeed => ({ kind: 'boarding', minDelayMinutes: null, destinations: [], boost, mode: 'boost' });
+const delay = (minDelayMinutes: number, boost: number, mode: TriggerSeed['mode'] = 'boost'): TriggerSeed => ({ kind: 'delay', minDelayMinutes, destinations: [], boost, mode, airlines: [] });
+const festival = (boost: number): TriggerSeed => ({ kind: 'festival', minDelayMinutes: null, destinations: [], boost, mode: 'boost', airlines: [] });
+const boarding = (boost: number): TriggerSeed => ({ kind: 'boarding', minDelayMinutes: null, destinations: [], boost, mode: 'boost', airlines: [] });
 
 const CAMPAIGNS: CampaignSeed[] = [
   { id: 'cmp-perfume-15', advertiserId: 'adv-aurelle', outletIndex: 0, name: 'Duty-free perfume, 15% off', category: 'perfume', status: 'active',
@@ -123,7 +123,7 @@ const CAMPAIGNS: CampaignSeed[] = [
     startOffsetDays: -18, lengthDays: 40, budget: 9000, pricePerPlay: 1.2, discountPct: 33,
     creative: { template: 'hero-offer', headline: 'Buy 2 toys, get 1 free', subline: 'Keep little travellers happy all the way there', cta: 'Scan to claim', hi: { headline: '2 खिलौने खरीदें, 1 मुफ़्त पाएँ', subline: 'छोटे यात्रियों को पूरे सफ़र में खुश रखें', cta: 'क्लेम करने के लिए स्कैन करें' } } },
   { id: 'cmp-lounge-daypass', advertiserId: 'adv-skyline', outletIndex: 0, name: 'Business lounge day pass', category: 'lounge', status: 'active',
-    weights: { business: 1, 'premium-economy': 0.5, 'frequent-flyer': 0.7, solo: 0.4 }, zones: T2_CENTRAL,
+    weights: { business: 1, 'business-cabin': 0.6, 'premium-economy': 0.5, 'frequent-flyer': 0.7, solo: 0.4 }, zones: T2_CENTRAL,
     startOffsetDays: -25, lengthDays: 60, budget: 12000, pricePerPlay: 1.8, discountPct: 20,
     creative: { template: 'upgrade', headline: 'Lounge day pass, 20% off', subline: 'Quiet seats, showers and a proper espresso', cta: 'Scan for your pass', hi: { headline: 'लाउंज डे पास, 20% छूट', subline: 'शांत जगह, शावर और बढ़िया एस्प्रेसो', cta: 'पास के लिए स्कैन करें' } } },
   { id: 'cmp-festive-sweets', advertiserId: 'adv-mithai', outletIndex: 0, name: 'Festive sweets, 20% off', category: 'sweets', status: 'active',

@@ -57,6 +57,7 @@ export function CreativeView({ creative, locale, advertiser, discountPct, portra
       {creative.template === 'hero-offer' && <Pattern id={`p-${creative.id}`} color="#ffffff" />}
       {creative.template === 'countdown-deal' && <Pattern id={`c-${creative.id}`} color={accent} />}
       {creative.template === 'destination' && <FlightPath />}
+      {creative.content.imageAssetId && <img src={`/api/assets/${encodeURIComponent(creative.content.imageAssetId)}`} alt="" className="absolute inset-0 h-full w-full object-cover opacity-35" />}
       <div className="relative flex items-center justify-between">
         <span className="rounded-full bg-white/15 px-4 py-1 text-sm font-semibold uppercase tracking-widest">{advertiser}</span>
         {discountPct > 0 && discountPct < 100 && (

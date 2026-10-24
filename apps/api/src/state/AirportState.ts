@@ -29,14 +29,24 @@ const statusAfter = (flight: Flight, event: FlightEvent): Flight['status'] => {
   return flight.status;
 };
 
+// Simulated player heartbeat latency: steady per screen, much higher when a screen is degraded
+function baseLatency(screenId: string, status: Screen['status']): number {
+  let h = 0;
+  for (let i = 0; i < screenId.length; i++) h = (h * 31 + screenId.charCodeAt(i)) >>> 0;
+  if (status === 'offline') return 0;
+  return status === 'degraded' ? 350 + (h % 550) : 28 + (h % 70);
+}
+
 // Live view of the airport that every engine component reads; only the feed pump and injector write to it
 export class AirportState {
   readonly flights = new Map<string, Flight>();
   readonly queues = new Map<string, QueueMeasurement>();
   readonly screens = new Map<string, Screen>();
   readonly gateChangedAt = new Map<string, number>();
-  readonly zones: ReadonlyMap<string, ZoneInfo>;
-  readonly gates: ReadonlyMap<string, GateInfo>;
+  readonly zones: Map<string, ZoneInfo>;
+  readonly gates: Map<string, GateInfo>;
+  readonly offlineSince = new Map<string, number>();
+  readonly latencyMs = new Map<string, number>();
   private baseline: Flight[] = [];
   private readonly screenBaseline = new Map<string, Screen['status']>();
   version = 0;
@@ -47,7 +57,25 @@ export class AirportState {
     for (const s of screens) {
       this.screens.set(s.id, structuredClone(s));
       this.screenBaseline.set(s.id, s.status);
+      this.latencyMs.set(s.id, baseLatency(s.id, s.status));
     }
+  }
+
+  upsertZone(zone: ZoneInfo): void {
+    this.zones.set(zone.id, zone);
+    this.version++;
+  }
+
+  upsertGate(gate: GateInfo): void {
+    this.gates.set(gate.id, gate);
+    this.version++;
+  }
+
+  upsertScreen(screen: Screen): void {
+    this.screens.set(screen.id, structuredClone(screen));
+    this.screenBaseline.set(screen.id, screen.status);
+    this.latencyMs.set(screen.id, baseLatency(screen.id, screen.status));
+    this.version++;
   }
 
   loadSnapshot(snapshot: FlightSnapshot): void {
@@ -61,9 +89,11 @@ export class AirportState {
     for (const f of this.baseline) this.flights.set(f.id, structuredClone(f));
     this.queues.clear();
     this.gateChangedAt.clear();
+    this.offlineSince.clear();
     for (const [id, status] of this.screenBaseline) {
       const screen = this.screens.get(id);
       if (screen) screen.status = status;
+      this.latencyMs.set(id, baseLatency(id, status));
     }
     this.version++;
   }
@@ -93,10 +123,13 @@ export class AirportState {
     this.version++;
   }
 
-  setScreenStatus(screenId: string, status: Screen['status']): Screen | null {
+  setScreenStatus(screenId: string, status: Screen['status'], atMs?: number): Screen | null {
     const screen = this.screens.get(screenId);
     if (!screen) return null;
+    if (status === 'offline' && screen.status !== 'offline' && atMs !== undefined) this.offlineSince.set(screenId, atMs);
+    if (status !== 'offline') this.offlineSince.delete(screenId);
     screen.status = status;
+    this.latencyMs.set(screenId, baseLatency(screenId, status));
     this.version++;
     return screen;
   }

@@ -158,7 +158,7 @@ export function ScreenPlayer({ screenId, fill = false }: { screenId: string; fil
                       )}
                     </td>
                     <td className="py-1 font-mono">{f.gate}</td>
-                    <td className={`py-1 text-xs capitalize ${new Map(Object.entries(STATUS_STYLE)).get(f.status) ?? 'text-white/70'}`}>{f.status.replace('-', ' ')}</td>
+                    <td className={`py-1 text-xs capitalize ${new Map(Object.entries(STATUS_STYLE)).get(f.status) ?? 'text-white/70'}`}>{t(`flight.status.${f.status}`)}</td>
                   </tr>
                 ))}
               </tbody>

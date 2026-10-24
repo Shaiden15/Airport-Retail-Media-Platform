@@ -20,7 +20,7 @@ const count = (db: ReturnType<typeof openDatabase>, sql: string) => Number(db.pr
 describe('database', () => {
   it('applies migrations once and records them', () => {
     const db = openDatabase(':memory:');
-    expect(migrate(db)).toEqual(['001_master_data', '002_campaigns', '003_activity', '004_engine']);
+    expect(migrate(db)).toEqual(['001_master_data', '002_campaigns', '003_activity', '004_engine', '005_operations']);
     expect(migrate(db)).toEqual([]);
   });
 

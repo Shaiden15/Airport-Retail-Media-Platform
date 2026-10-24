@@ -1,7 +1,14 @@
 import { existsSync } from 'node:fs';
 import type { Campaign, Flight, Screen } from '@dwellcast/shared';
 import { createFlightSource, createZoneSource } from '../adapters/registry.ts';
+import { IncidentService, type Incident } from '../admin/IncidentService.ts';
+import { MasterDataService } from '../admin/MasterDataService.ts';
+import { Metrics } from '../admin/Metrics.ts';
+import { AirlineService } from '../airline/AirlineService.ts';
+import { CampaignService } from '../campaigns/CampaignService.ts';
 import { ClaimService, type RedemptionEvent } from '../claims/ClaimService.ts';
+import { MediaService } from '../media/MediaService.ts';
+import { RetailerService } from '../retailer/RetailerService.ts';
 import { loadClaimSecret } from '../claims/tokens.ts';
 import type { AdapterContext } from '../adapters/types.ts';
 import type { AirportConfig } from '../airportConfig.ts';
@@ -87,6 +94,13 @@ export class Runtime {
   private lastFlush = 0;
   private decisionBuffer: Decision[] = [];
   private redemptionBuffer: RedemptionEvent[] = [];
+  readonly metrics: Metrics;
+  readonly campaignsService: CampaignService;
+  readonly incidents: IncidentService;
+  readonly masterData: MasterDataService;
+  readonly retailer: RetailerService;
+  readonly media: MediaService;
+  readonly airline: AirlineService;
   private readonly baselineSpend: Map<string, number>;
   readonly startedAt = Date.now();
   tickCount = 0;
@@ -111,6 +125,17 @@ export class Runtime {
     this.baselineSpend = new Map(engine.campaigns.map((c) => [c.id, c.budget.spent]));
     engine.on('decision', (d: Decision) => this.decisionBuffer.push(d));
     claims.on('redemption', (r: RedemptionEvent) => this.redemptionBuffer.push(r));
+    this.metrics = new Metrics(airport.seed);
+    this.campaignsService = new CampaignService(db, engine, presence, state, clock);
+    this.incidents = new IncidentService(db, state, clock, (screenId) => {
+      const vendorId = state.screens.get(screenId)?.vendorId ?? '';
+      return String(db.prepare('SELECT name FROM vendors WHERE id = ?').get(vendorId)?.name ?? 'Screen operations');
+    });
+    this.incidents.on('incident', (i: Incident) => this.hub.publish('incident', i));
+    this.masterData = new MasterDataService(db, state, engine, presence);
+    this.retailer = new RetailerService(db, engine, presence, ledger, claims, engine.learner, clock);
+    this.media = new MediaService(db, engine, presence, state, ledger, claims, clock);
+    this.airline = new AirlineService(db, engine, presence, state, this.campaignsService, clock);
     clock.on('change', () => this.hub.publish('clock', this.clockPayload()));
   }
 
@@ -154,7 +179,7 @@ export class Runtime {
       db,
     });
     const injector = new EventInjector(state, pump, clock, ctx);
-    const claims = new ClaimService(db, clock, state, engine, loadClaimSecret(db, config.CLAIM_SECRET), { creatives: repo.creatives(), outlets: repo.outlets(), advertisers: repo.advertisers() }, airport.seed);
+    const claims = new ClaimService(db, clock, state, engine, loadClaimSecret(db, config.CLAIM_SECRET), airport.seed);
     const runtime = new Runtime(config, airport, db, repo, state, pump, presence, engine, agent, clock, injector, ledger, opts.tickMs ?? 250, claims);
     pump.deliverUntil(clock.nowMs());
     engine.runSlot(clock.nowMs());
@@ -183,7 +208,14 @@ export class Runtime {
     this.clock.advance(realMs);
     const now = this.clock.nowMs();
     const { changes, measurements } = this.pump.deliverUntil(now);
+    const slotStarted = performance.now();
     const ranSlot = this.engine.runSlot(now) > 0;
+    if (ranSlot) {
+      this.metrics.recordSlot(performance.now() - slotStarted);
+      const screens = [...this.state.screens.values()];
+      this.metrics.recordOnlineShare(screens.filter((s) => s.status !== 'offline').length / Math.max(1, screens.length));
+    }
+    this.incidents.evaluate(this.pump.health(now));
     if (!ranSlot && changes.length) this.engine.replan(this.affectedScreens(changes), now);
     this.claims.settleSimulated();
     this.publish(changes, measurements.length > 0);
@@ -258,6 +290,7 @@ export class Runtime {
     this.ledger.resetDay();
     this.claims.resetDay();
     this.engine.resetLearning();
+    this.incidents.reset();
     for (const c of this.engine.campaigns) c.budget.spent = this.baselineSpend.get(c.id) ?? c.budget.spent;
     this.clock.jump(targetMs ?? this.clock.nowMs());
     this.engine.onJump();
@@ -302,7 +335,7 @@ export class Runtime {
 
   setScreenStatus(screenId: string, status: Screen['status']): InjectionResult {
     return this.timed(status === 'offline' ? 'screen-offline' : 'screen-online', () => {
-      const screen = this.state.setScreenStatus(screenId, status);
+      const screen = this.state.setScreenStatus(screenId, status, this.clock.nowMs());
       if (!screen) throw new InjectionError(`unknown screen ${screenId}`, 404);
       this.hub.publish('screen', { screenId, status, simTime: this.clock.nowIso() });
       return { screens: status === 'offline' ? [] : [screenId] };
@@ -332,6 +365,8 @@ export class Runtime {
     const totals = this.ledger.totals();
     const latest = this.engine.latestAll();
     const avgLatency = latest.length ? latest.reduce((s, d) => s + d.computeMs, 0) / latest.length : 0;
+    const live = screens.filter((s) => s.status !== 'offline').map((s) => this.state.latencyMs.get(s.id) ?? 0);
+    const avgScreenLatency = live.length ? live.reduce((s, v) => s + v, 0) / live.length : 0;
     const activeCampaigns = this.engine.campaigns.filter((c: Campaign) => c.status === 'active').length;
     return {
       simTime: this.clock.nowIso(),
@@ -344,6 +379,8 @@ export class Runtime {
       currency: 'USD',
       activeCampaigns,
       avgDecisionMs: Math.round(avgLatency * 100) / 100,
+      avgScreenLatencyMs: Math.round(avgScreenLatency),
+      incidents: this.incidents.counts(),
       tickMs: this.lastTickMs,
     };
   }

@@ -51,38 +51,38 @@ Status: `Planned` | `In progress` | `Done`. Paths are relative to the repository
 
 | ID | Priority | Requirement | Status | Implementation | Tests | How to verify |
 |---|---|---|---|---|---|---|
-| ADM-1 | Must | Live network map (T1/T2 SVG), screens coloured online/degraded/offline, presence heat overlay | Planned | | | |
-| ADM-2 | Must | KPI strip: screens online %, plays today, impressions, revenue (configurable currency), active campaigns, avg latency | Planned | | | |
-| ADM-3 | Must | Incident and bug tracker, auto-raised alerts, severity, owner, status | Planned | | | |
-| ADM-4 | Must | Master data CRUD: vendors, outlets and F&B retailers, airlines, locations, screens | Planned | | | |
-| ADM-5 | Must | Rule engine settings, searchable decision log, segment model version | In progress | API done: `GET/PUT /api/engine/settings` (persisted), `GET /api/decisions`, `modelVersion` on every decision; UI in Phase 4 | `apps/api/src/routes/api.test.ts` | Phase 4 admin page |
-| ADM-6 | Should | Data feed health: AODB/AIDX/ACRIS status, msgs/min, last message, adapter in use | In progress | API done: `GET /api/feeds` (`FeedPump.health`, `ratePerMinute`); UI in Phase 4 | `api.test.ts` | Phase 4 admin page |
-| ADM-7 | Should | Performance panel: API p95, playlist build time, 7-day uptime | Planned | | | |
+| ADM-1 | Must | Live network map (T1/T2 SVG), screens coloured online/degraded/offline, presence heat overlay | Done | `apps/web/src/roles/admin/NetworkMap.tsx`, `GET /api/admin/map`, take offline / bring online from the screen panel | `apps/api/src/routes/roles.test.ts`, `e2e/roles.spec.ts` | `/admin`, click a screen dot |
+| ADM-2 | Must | KPI strip: screens online %, plays today, impressions, revenue (configurable currency), active campaigns, avg latency | Done | `apps/web/src/roles/admin/AdminDashboard.tsx`, `GET /api/kpis` (adds `avgScreenLatencyMs`) | `api.test.ts`, `e2e/roles.spec.ts` | `/admin` KPI strip |
+| ADM-3 | Must | Incident and bug tracker, auto-raised alerts, severity, owner, status | Done | `apps/api/src/admin/IncidentService.ts` (auto-raise offline > 5 min, feed lag, creative failures; auto-resolve), `apps/web/src/roles/admin/AdminIncidents.tsx`, SSE `incident` topic | `apps/api/src/routes/roles.test.ts` | Take a screen offline, play 10x |
+| ADM-4 | Must | Master data CRUD: vendors, outlets and F&B retailers, airlines, locations, screens | Done | `apps/api/src/admin/MasterDataService.ts` (zod per kind, 409 on conflicts), `apps/web/src/roles/admin/AdminMasterData.tsx` | `apps/api/src/routes/roles.test.ts` | `/admin/master` |
+| ADM-5 | Must | Rule engine settings, searchable decision log, segment model version | Done | `apps/web/src/roles/admin/AdminRules.tsx`: settings form, model versions, searchable decision log | `api.test.ts` | `/admin/rules` |
+| ADM-6 | Should | Data feed health: AODB/AIDX/ACRIS status, msgs/min, last message, adapter in use | Done | `AdminDashboard.tsx` feed health card over `GET /api/feeds` | `api.test.ts`, `e2e/roles.spec.ts` | `/admin` |
+| ADM-7 | Should | Performance panel: API p95, playlist build time, 7-day uptime | Done | `apps/api/src/admin/Metrics.ts` (request p50/p95, playlist build time, uptime), `GET /api/admin/performance` | `apps/api/src/routes/roles.test.ts` | `/admin` performance card |
 
 ## Retailer
 
 | ID | Priority | Requirement | Status | Implementation | Tests | How to verify |
 |---|---|---|---|---|---|---|
 | RET-1 | Must | Live dashboard: impressions, scans, redemptions, conversion, revenue attributed | Done | `apps/web/src/roles/retailer/RetailerPage.tsx` (`RetailerLiveDashboard`), `GET /api/retailer/:id/live`, simulated shoppers in `ClaimService` | `apps/api/src/claims/claims.test.ts`, `e2e/demo.spec.ts` | `/retailer`, company switcher |
-| RET-2 | Must | Passenger flow near my store, next 2 hours, top destinations and nationalities | Planned | | | |
-| RET-3 | Must | Campaign builder with mock screen preview | Planned | | | |
-| RET-4 | Must | Creative library, upload or reuse, duplicate past campaign in one click | Planned | | | |
-| RET-5 | Must | Promo codes: time-boxed, QR, expire with linked flight boarding, share-to-family second code | In progress | Codes, QR, flight-linked expiry and family share done (`ClaimService`, `ClaimPage`); retailer code management UI in Phase 4 | `apps/api/src/claims/claims.test.ts` | Claim page share button |
-| RET-6 | Must | Campaign history with spend, impressions, redemptions, ROI, run again | Planned | | | |
-| RET-7 | Must | Live audience-match preview, performance by segment, suggested weight changes | Planned | | | |
-| RET-8 | Should | Trigger rules (delay > N min at gates) | Planned | | | |
-| RET-9 | Should | Stock-aware offers (mock toggle) | Planned | | | |
-| RET-10 | Should | Budget pacing and A/B creative comparison | Planned | | | |
+| RET-2 | Must | Passenger flow near my store, next 2 hours, top destinations and nationalities | Done | `apps/api/src/retailer/RetailerService.ts` (`flow`), `apps/web/src/roles/retailer/RetailerDashboard.tsx` flow cards | `apps/api/src/routes/roles.test.ts` | `/retailer` |
+| RET-3 | Must | Campaign builder with mock screen preview | Done | `apps/web/src/roles/retailer/CampaignBuilder.tsx` with mock screen, `apps/api/src/campaigns/CampaignService.ts` | `apps/api/src/routes/roles.test.ts`, `e2e/roles.spec.ts` | `/retailer/campaigns` > New campaign |
+| RET-4 | Must | Creative library, upload or reuse, duplicate past campaign in one click | Done | `apps/web/src/roles/retailer/CreativeLibrary.tsx` (upload with magic-byte check, Hindi copy), `POST /api/assets`, duplicate via Run again | `apps/api/src/routes/roles.test.ts` | `/retailer/creatives` |
+| RET-5 | Must | Promo codes: time-boxed, QR, expire with linked flight boarding, share-to-family second code | Done | `ClaimService`, `ClaimPage`, retailer codes table in `apps/web/src/roles/retailer/RetailerInsights.tsx` | `claims.test.ts`, `apps/api/src/routes/roles.test.ts` | `/retailer/insights` |
+| RET-6 | Must | Campaign history with spend, impressions, redemptions, ROI, run again | Done | `RetailerService.history`, `RetailerInsights.tsx` with ROI and Run again | `apps/api/src/routes/roles.test.ts` | `/retailer/insights` |
+| RET-7 | Must | Live audience-match preview, performance by segment, suggested weight changes | Done | `POST /api/campaigns/preview` (live match), `GET /api/campaigns/:id/segments` with suggested weights | `apps/api/src/routes/roles.test.ts`, `e2e/roles.spec.ts` | Builder preview card |
+| RET-8 | Should | Trigger rules (delay > N min at gates) | Done | Builder delay trigger (minutes, boost or delay-only), `eligibility.ts` trigger checks | `apps/api/src/routes/roles.test.ts` | Builder > Trigger on flight delays |
+| RET-9 | Should | Stock-aware offers (mock toggle) | Done | `POST /api/outlets/:id/stock`, stock toggle on flow cards; out-of-stock outlets are filtered with a reason | `apps/api/src/routes/roles.test.ts` | `/retailer` stock checkbox |
+| RET-10 | Should | Budget pacing and A/B creative comparison | In progress | Budget pacing bar in `RetailerCampaigns.tsx`; A/B creative comparison planned for Phase 6 |  | `/retailer/campaigns` |
 
 ## Media Manager
 
 | ID | Priority | Requirement | Status | Implementation | Tests | How to verify |
 |---|---|---|---|---|---|---|
-| MED-1 | Must | Inventory calendar: screen x hour, booked / available / premium | Planned | | | |
-| MED-2 | Must | Yield and pricing: suggested price per slot, occupancy %, 7-day revenue forecast | Planned | | | |
-| MED-3 | Must | Approval queue with approve/reject and brand-safety checklist | Planned | | | |
-| MED-4 | Must | Advertiser overview: top by spend, running campaigns, under-delivery flagged | Planned | | | |
-| MED-5 | Must | Segment heatmap, conflict view, manual pin/override with reason | In progress | Engine supports pin with reason and expiry (`DecisionEngine.pin`) and per-candidate conflict data; UI in Phase 4 | - | Phase 4 media page |
+| MED-1 | Must | Inventory calendar: screen x hour, booked / available / premium | Done | `apps/api/src/media/MediaService.ts` (`inventory`), `apps/web/src/roles/media/MediaInventory.tsx` | `apps/api/src/routes/roles.test.ts` | `/media/inventory` |
+| MED-2 | Must | Yield and pricing: suggested price per slot, occupancy %, 7-day revenue forecast | Done | `apps/api/src/media/pricing.ts` (CPM x attention x premium), 7-day yield outlook | `apps/api/src/routes/roles.test.ts` | `/media/inventory` |
+| MED-3 | Must | Approval queue with approve/reject and brand-safety checklist | Done | `apps/web/src/roles/media/MediaApprovals.tsx` (5-item checklist, all required), `CampaignService.review` | `apps/api/src/routes/roles.test.ts`, `e2e/roles.spec.ts` | `/media/approvals` |
+| MED-4 | Must | Advertiser overview: top by spend, running campaigns, under-delivery flagged | Done | `apps/web/src/roles/media/MediaDashboard.tsx`, under-delivery flag in `MediaService.advertisers` | `apps/api/src/routes/roles.test.ts` | `/media` |
+| MED-5 | Must | Segment heatmap, conflict view, manual pin/override with reason | Done | `apps/web/src/roles/media/MediaAudience.tsx`: segment heatmap, why A beat B, pins with reason and expiry | `apps/api/src/routes/roles.test.ts` | `/media/audience` |
 | MED-6 | Should | Package builder | Planned | | | |
 | MED-7 | Should | One-click advertiser report (PDF or shareable link) | Planned | | | |
 
@@ -90,10 +90,10 @@ Status: `Planned` | `In progress` | `Done`. Paths are relative to the repository
 
 | ID | Priority | Requirement | Status | Implementation | Tests | How to verify |
 |---|---|---|---|---|---|---|
-| AIR-1 | Must | My flights today: list and timeline with gate, status, delay, load factor | Planned | | | |
-| AIR-2 | Must | Gate-area messaging scheduled for my boarding window | Planned | | | |
-| AIR-3 | Must | Delay goodwill automation, voucher co-funded with an F&B retailer | In progress | Engine done: required delay trigger takes over gate screens (`delay-goodwill` rule); airline configuration UI in Phase 4 | `apps/api/src/runtime/runtime.test.ts` | Inject a 75-minute delay on XH501 |
-| AIR-4 | Must | Crowd profile of own flights, partner offers ranked by fit, what played at my gates and why | Planned | | | |
+| AIR-1 | Must | My flights today: list and timeline with gate, status, delay, load factor | Done | `apps/web/src/roles/airline/AirlineDashboard.tsx` (timeline and list), `GET /api/airline/:code/overview` | `apps/api/src/routes/roles.test.ts` | `/airline?company=XH` |
+| AIR-2 | Must | Gate-area messaging scheduled for my boarding window | Done | `AirlineService.createGateMessage` (boarding trigger, own gates only, needs approval), `apps/web/src/roles/airline/AirlineMessaging.tsx` | `apps/api/src/routes/roles.test.ts` | `/airline/messaging` |
+| AIR-3 | Must | Delay goodwill automation, voucher co-funded with an F&B retailer | Done | `AirlineService.createGoodwill` (co-funded partner voucher, delay trigger on own flights), `apps/web/src/roles/airline/AirlineGoodwill.tsx` with activity log | `runtime.test.ts`, `apps/api/src/routes/roles.test.ts`, `e2e/roles.spec.ts` | Create a rule, inject a delay |
+| AIR-4 | Must | Crowd profile of own flights, partner offers ranked by fit, what played at my gates and why | Done | Crowd profile card, partner offers ranked by fit, gate plays with reasons (`apps/web/src/roles/airline/AirlinePartners.tsx`) | `apps/api/src/routes/roles.test.ts` | `/airline/partners` |
 | AIR-5 | Should | Co-marketing marketplace, accept in one click | Planned | | | |
 | AIR-6 | Should | Performance among own passengers | Planned | | | |
 

@@ -3,6 +3,7 @@
 Checkpoint after every phase so work can resume after a context reset. Plan: `PLAN.md`.
 
 ## Decisions
+- 2026-10-24: Cabin segments are `economy`, `premium-economy`, `business-cabin` so the business cabin never overwrites business travel. Standing airline policies (goodwill, gate messages) start at the day start so time jumps never filter them. Every new or edited campaign goes through the media brand-safety checklist; airline goodwill is auto-approved as a partner campaign.
 - 2026-10-24: Claims: HMAC-signed offer links expiring at the linked flight's gate close; per-phone codes; family share; simulated shoppers make dashboards tick (labelled `simulated`). Learner counts exposures on every play, so learned lifts stay calibrated; Reset demo restores feeds, totals and learning.
 - 2026-10-24: Playground = Dockerfile target `playground` (API serves the web app on 7860, about 145 MB RSS). Compose binds to 127.0.0.1; phone scanning uses `npm run dev` or the deployed URL.
 - 2026-10-24: Scoring formula and rules documented in `docs/decision-pipeline.md`. Delay goodwill is a takeover rule (required trigger, delay >= 60) rather than an auction, so XH501 at 45 min shows perfume and an injected 75 min shows the voucher.
@@ -24,7 +25,7 @@ Checkpoint after every phase so work can resume after a context reset. Plan: `PL
 | P1 Data + adapters | Done 2026-10-24 | 52 tests green, OpenGrep 0 ERROR / 0 WARNING. Generator: 900 legs, 3,729 AIDX msgs, 1,440 ACRIS measurements, 180 screens, 40 outlets, 25 campaigns, 368 history days |
 | P2 Engine | Done 2026-10-24 | 82 tests green. Worked example reproduces; injected delay re-plans gate screens in about 6 ms; 60x at about 27 ms per tick; hallucinated AI proposal rejected |
 | P3 Vertical slice + deploy | Done 2026-10-24 (deploy pending accounts) | 91 unit/API + 5 E2E green, OpenGrep 0/0. Passenger screen, Why this ad, QR claim on phone, retailer live, control bar, split demo, Docker files, deploy guide. Image build waits for Docker Desktop; hosting waits for free accounts |
-| P4 Role dashboards | Not started | |
+| P4 Role dashboards | Done 2026-10-24 | 113 unit/API + 9 E2E green, OpenGrep 0/0. Admin (network map, incidents, master data, rules and log, feed health, performance), Retailer (flow, builder with live preview, creatives with upload, history, codes, segments), Media (advertisers, inventory and yield, approvals, heatmap, conflict, pins), Airline (flights timeline, gate messaging, delay goodwill, partners and plays). All EN + Hindi |
 | P5 WOW extras | Not started | |
 | P6 Shoulds | Not started | |
 | P7 Hardening + submission | Not started | |
@@ -35,6 +36,8 @@ Checkpoint after every phase so work can resume after a context reset. Plan: `PL
 - E2E: `npm run e2e` drives the installed Chrome (`channel: chrome`), no browser download.
 - OpenGrep v1.32.0 runs inside WSL Ubuntu on Windows (`npm run sast`). The 1 scan error is a broken C# rule in the ruleset, not our code.
 - Do not use `npm install --prefer-offline`: stale cached metadata breaks resolution.
+- OpenGrep `detect-object-injection` flags `obj[key]` with a variable key, in UI code too: use `new Map(Object.entries(obj)).get(key)` or Map constants.
+- i18n: role locales are not persisted; E2E switches pages client-side to keep Hindi. `apps/web/src/i18n/keys.test.ts` fails on any literal `t('a.b.c')` key missing from en.json.
 - OpenGrep traps hit in P1 and fixed: `html-in-template-string` (build XML with XMLBuilder, never template strings), `no-replaceall` (use regex `/g`), TS `const` type parameters break its parser.
 - Generated feeds are committed (`data/feeds/`, about 7 MB); regenerate with `npm run generate --workspace apps/api`.
 - `Airport-Retail-Media-Platform/` is the user's separate clone of the GitHub repo; excluded locally via .git/info/exclude.

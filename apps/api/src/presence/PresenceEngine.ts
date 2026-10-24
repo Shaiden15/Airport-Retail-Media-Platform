@@ -1,5 +1,5 @@
 import type { CrowdProfile, Flight, Screen, Segment } from '@dwellcast/shared';
-import { SEGMENTS } from '@dwellcast/shared';
+import { SEGMENTS, cabinSegment, type Cabin } from '@dwellcast/shared';
 import type { AirportConfig } from '../airportConfig.ts';
 import { AIRCRAFT_BY_ICAO, AIRLINE_BY_CODE } from '../generator/reference.ts';
 import { buildCrowdProfile } from '../profiles/crowdProfile.ts';
@@ -65,7 +65,7 @@ function profileSegments(p: CrowdProfile): Map<Segment, number> {
   for (const [k, v] of Object.entries(p.tripPurpose)) m.set(k as Segment, v);
   for (const [k, v] of Object.entries(p.party)) m.set(k as Segment, v);
   for (const [k, v] of Object.entries(p.age)) m.set(k as Segment, v);
-  for (const [k, v] of Object.entries(p.cabin)) m.set(k as Segment, v);
+  for (const [k, v] of Object.entries(p.cabin) as [Cabin, number][]) m.set(cabinSegment(k), v);
   m.set('international', p.international ? 1 : 0);
   m.set('domestic', p.international ? 0 : 1);
   m.set('frequent-flyer', p.frequentFlyerShare);
@@ -100,12 +100,21 @@ export class PresenceEngine {
     private readonly state: AirportState,
     private readonly airport: AirportConfig,
   ) {
-    for (const gate of state.gates.values()) {
+    this.refreshTopology();
+  }
+
+  // Rebuilds gate and screen groupings after master data edits
+  refreshTopology(): void {
+    this.gatesByZone.clear();
+    this.screensPerZone.clear();
+    this.zoneCache.clear();
+    this.zoneScreenCache.clear();
+    for (const gate of this.state.gates.values()) {
       const set = this.gatesByZone.get(gate.zoneId) ?? new Set<string>();
       set.add(gate.id);
       this.gatesByZone.set(gate.zoneId, set);
     }
-    for (const s of state.screens.values()) this.screensPerZone.set(s.zoneId, (this.screensPerZone.get(s.zoneId) ?? 0) + 1);
+    for (const s of this.state.screens.values()) this.screensPerZone.set(s.zoneId, (this.screensPerZone.get(s.zoneId) ?? 0) + 1);
   }
 
   profile(flight: Flight): CrowdProfile {
@@ -233,6 +242,41 @@ export class PresenceEngine {
     return {
       queue: { occupancy: measurements.reduce((s, m) => s + m.occupancy, 0), waitTimeSec: Math.max(...measurements.map((m) => m.waitTimeSec)) },
       refs: measurements.map(queueEvidence),
+    };
+  }
+
+  // Expected passengers passing through a zone over a window: each flight counted once at its peak share
+  zoneFlow(zoneId: string, fromMs: number, minutes: number, stepMinutes = 10) {
+    const zone = this.state.zones.get(zoneId);
+    if (!zone) return null;
+    const steps = Math.max(1, Math.floor(minutes / stepMinutes));
+    const times = Array.from({ length: steps + 1 }, (_, i) => fromMs + i * stepMinutes * 60_000);
+    let unique = 0;
+    let international = 0;
+    const destinations = new Map<string, number>();
+    const nationalities = new Map<string, number>();
+    for (const { flight, weight } of this.zoneItems(zone)) {
+      const peak = Math.max(...times.map((t) => this.presenceOf(zone.kind, flight, t)));
+      const pax = flight.paxCount * peak * weight;
+      if (pax < 0.5) continue;
+      unique += pax;
+      if (flight.international) international += pax;
+      const dest = flight.direction === 'departure' ? flight.destination : flight.origin;
+      destinations.set(dest, (destinations.get(dest) ?? 0) + pax);
+      for (const n of this.profile(flight).nationalities) nationalities.set(n.code, (nationalities.get(n.code) ?? 0) + n.share * pax);
+    }
+    const rank = (m: Map<string, number>) =>
+      [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([code, v]) => ({ code, share: unique > 0 ? round(v / unique) : 0 }));
+    return {
+      zoneId,
+      zoneName: zone.name,
+      fromIso: new Date(fromMs).toISOString(),
+      minutes,
+      uniquePax: Math.round(unique),
+      internationalShare: unique > 0 ? round(international / unique) : 0,
+      topDestinations: rank(destinations),
+      topNationalities: rank(nationalities),
+      series: times.map((t) => ({ at: new Date(t).toISOString(), pax: this.zone(zoneId, t)?.pax ?? 0 })),
     };
   }
 

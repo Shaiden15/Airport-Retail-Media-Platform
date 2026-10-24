@@ -89,6 +89,61 @@ export class DecisionEngine extends EventEmitter {
     return this.deps.campaigns;
   }
 
+  get learner(): Learner {
+    return this.deps.learner;
+  }
+
+  campaignById(id: string): Campaign | undefined {
+    return this.deps.campaigns.find((c) => c.id === id);
+  }
+
+  // Live edits from the dashboards take effect on the next decision, no restart needed
+  upsertCampaign(campaign: Campaign): void {
+    const i = this.deps.campaigns.findIndex((c) => c.id === campaign.id);
+    if (i === -1) this.deps.campaigns.push(campaign);
+    else this.deps.campaigns.splice(i, 1, campaign);
+  }
+
+  creativeById(id: string): Creative | undefined {
+    return this.creatives.get(id);
+  }
+
+  creativesList(): Creative[] {
+    return [...this.creatives.values()];
+  }
+
+  upsertCreative(creative: Creative): void {
+    this.creatives.set(creative.id, creative);
+  }
+
+  outletById(id: string): Outlet | undefined {
+    return this.outlets.get(id);
+  }
+
+  outletsList(): Outlet[] {
+    return [...this.outlets.values()];
+  }
+
+  upsertOutlet(outlet: Outlet): void {
+    this.outlets.set(outlet.id, outlet);
+  }
+
+  advertiserById(id: string): Advertiser | undefined {
+    return this.advertisers.get(id);
+  }
+
+  advertisersList(): Advertiser[] {
+    return [...this.advertisers.values()];
+  }
+
+  upsertAdvertiser(advertiser: Advertiser): void {
+    this.advertisers.set(advertiser.id, advertiser);
+  }
+
+  pinsList(): { screenId: string; campaignId: string; reason: string; until: number }[] {
+    return [...this.pins.entries()].map(([screenId, p]) => ({ screenId, ...p }));
+  }
+
   private loggedInputs(campaign: Campaign, crowd: Crowd, fired: FiredTrigger[], simMs: number): ScoreInputs {
     return {
       weights: campaign.targeting.segmentWeights,

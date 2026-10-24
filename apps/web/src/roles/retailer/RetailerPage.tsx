@@ -86,7 +86,7 @@ export function RetailerLiveDashboard({ advertiserId }: { advertiserId: string }
                 <tr key={c.id} className="border-t border-muted/10">
                   <td className="py-2">
                     <div className="font-medium">{c.name}</div>
-                    <div className="text-xs capitalize text-muted">{c.status.replace('-', ' ')}</div>
+                    <div className="text-xs capitalize text-muted">{t(`campaign.status.${c.status}`)}</div>
                   </td>
                   <td className="px-3 py-2 text-right tabular-nums">{count(c.plays)}</td>
                   <td className="px-3 py-2 text-right tabular-nums">{count(c.impressions)}</td>

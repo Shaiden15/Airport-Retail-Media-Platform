@@ -4,6 +4,9 @@ import { Shell } from '../../app/Shell.tsx';
 import { DEFAULT_SCREEN } from '../passenger/PassengerPage.tsx';
 import { ScreenPicker } from '../passenger/ScreenPicker.tsx';
 import { ScreenPlayer } from '../passenger/ScreenPlayer.tsx';
+import { AdminDashboard } from '../admin/AdminDashboard.tsx';
+import { AirlineDashboard } from '../airline/AirlineDashboard.tsx';
+import { MediaDashboard } from '../media/MediaDashboard.tsx';
 import { RetailerLiveDashboard } from '../retailer/RetailerPage.tsx';
 
 const RIGHT_ROLES = ['retailer', 'admin', 'media', 'airline'] as const;
@@ -43,15 +46,10 @@ export function SplitDemo() {
           <ScreenPlayer screenId={screenId} />
         </div>
         <div className="min-w-0">
-          {right === 'retailer' ? (
-            <RetailerLiveDashboard advertiserId={company} />
-          ) : (
-            <div className="rounded-lg border border-dashed border-muted/40 p-6 text-muted">
-              <h2 className="text-lg font-semibold text-fg">{t(`roles.name.${right}`)}</h2>
-              <p className="mt-2">{t(`roles.intro.${right}`)}</p>
-              <p className="mt-4">{t('shell.workspace.comingSoon')}</p>
-            </div>
-          )}
+          {right === 'retailer' && <RetailerLiveDashboard advertiserId={company} />}
+          {right === 'admin' && <AdminDashboard />}
+          {right === 'media' && <MediaDashboard />}
+          {right === 'airline' && <AirlineDashboard airlineCode={params.get('airline') ?? 'XH'} />}
         </div>
       </div>
     </Shell>

@@ -20,6 +20,8 @@ export interface Kpis {
   currency: string;
   activeCampaigns: number;
   avgDecisionMs: number;
+  avgScreenLatencyMs: number;
+  incidents: Record<'critical' | 'high' | 'medium' | 'low', number>;
   tickMs: number;
 }
 

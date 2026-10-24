@@ -1,6 +1,6 @@
 import type { ServerResponse } from 'node:http';
 
-export const TOPICS = ['clock', 'flight', 'decision', 'presence', 'kpi', 'feed', 'screen', 'redemption', 'inject'] as const;
+export const TOPICS = ['clock', 'flight', 'decision', 'presence', 'kpi', 'feed', 'screen', 'redemption', 'inject', 'incident'] as const;
 export type Topic = (typeof TOPICS)[number];
 
 interface Client {

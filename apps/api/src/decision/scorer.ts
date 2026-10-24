@@ -1,4 +1,4 @@
-import { AGE_BANDS, CABINS, PARTY_TYPES, TRIP_PURPOSES, type Segment } from '@dwellcast/shared';
+import { AGE_BANDS, CABIN_SEGMENTS, PARTY_TYPES, TRIP_PURPOSES, type Segment } from '@dwellcast/shared';
 
 // Deterministic, documented scoring (docs/decision-pipeline.md). Same inputs always give the same score
 
@@ -7,7 +7,7 @@ export const SEGMENT_GROUPS: readonly (readonly Segment[])[] = [
   TRIP_PURPOSES,
   PARTY_TYPES,
   AGE_BANDS,
-  CABINS,
+  CABIN_SEGMENTS,
   ['female', 'male'],
   ['frequent-flyer'],
 ];
